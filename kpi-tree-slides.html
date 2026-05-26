@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPIツリー 教育資料</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #1a1a2e; color: #333; }
+
+  /* ナビゲーション */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; }
+  .nav-title { color: #fff; font-size: 13px; opacity: 0.7; }
+  .nav-btns { display: flex; gap: 8px; }
+  .nav-btn { background: rgba(255,255,255,0.15); border: none; color: #fff; padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .nav-btn:hover { background: rgba(255,255,255,0.3); }
+  .slide-counter { color: #fff; font-size: 13px; opacity: 0.7; }
+
+  /* スライドコンテナ */
+  .slides-container { padding-top: 48px; }
+  .slide { display: none; width: 100vw; min-height: calc(100vh - 48px); }
+  .slide.active { display: flex; flex-direction: column; }
+
+  /* スライド共通レイアウト */
+  .slide-inner { width: 100%; max-width: 960px; margin: 0 auto; padding: 40px 48px; flex: 1; display: flex; flex-direction: column; }
+
+  /* ===== スライド1: タイトル ===== */
+  .s1 { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%); }
+  .s1 .slide-inner { justify-content: center; align-items: flex-start; }
+  .s1-tag { background: rgba(255,255,255,0.2); color: #fff; font-size: 13px; padding: 4px 14px; border-radius: 20px; display: inline-block; margin-bottom: 24px; letter-spacing: 1px; }
+  .s1-title { font-size: 48px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+  .s1-title span { color: #93c5fd; }
+  .s1-sub { font-size: 20px; color: rgba(255,255,255,0.75); margin-bottom: 40px; }
+  .s1-meta { display: flex; gap: 32px; }
+  .s1-meta-item { color: rgba(255,255,255,0.6); font-size: 14px; }
+  .s1-meta-item strong { color: #fff; display: block; font-size: 16px; margin-bottom: 2px; }
+  .s1-deco { position: absolute; right: 80px; top: 50%; transform: translateY(-50%); opacity: 0.1; font-size: 200px; }
+
+  /* ===== スライド2: アジェンダ ===== */
+  .s2 { background: #f8fafc; }
+  .slide-header { margin-bottom: 32px; }
+  .slide-num { font-size: 12px; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .slide-title { font-size: 32px; font-weight: 800; color: #1e293b; }
+  .slide-title span { color: #2563eb; }
+  .slide-divider { width: 48px; height: 4px; background: #2563eb; border-radius: 2px; margin-top: 12px; }
+  .agenda-list { display: flex; flex-direction: column; gap: 16px; flex: 1; justify-content: center; }
+  .agenda-item { display: flex; align-items: center; gap: 20px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+  .agenda-num { width: 40px; height: 40px; background: #2563eb; color: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+  .agenda-text { font-size: 18px; font-weight: 600; color: #1e293b; }
+  .agenda-desc { font-size: 13px; color: #64748b; margin-top: 2px; }
+
+  /* ===== スライド3: KPIツリーとは ===== */
+  .s3 { background: #f8fafc; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; flex: 1; align-items: start; margin-top: 8px; }
+  .def-box { background: #1e3a8a; color: #fff; border-radius: 16px; padding: 28px; }
+  .def-box h3 { font-size: 16px; color: #93c5fd; margin-bottom: 12px; letter-spacing: 1px; }
+  .def-box p { font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+  .def-box .keyword { color: #fbbf24; font-weight: 700; }
+  .why-list { display: flex; flex-direction: column; gap: 12px; }
+  .why-item { display: flex; gap: 14px; background: #fff; border-radius: 12px; padding: 16px; border: 1px solid #e2e8f0; }
+  .why-icon { font-size: 24px; flex-shrink: 0; }
+  .why-text strong { display: block; font-size: 15px; color: #1e293b; margin-bottom: 4px; }
+  .why-text span { font-size: 13px; color: #64748b; }
+
+  /* ===== スライド4: 構造 ===== */
+  .s4 { background: #f8fafc; }
+  .tree-visual { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; }
+  .tree-level { display: flex; justify-content: center; gap: 12px; position: relative; }
+  .tree-node { border-radius: 10px; padding: 12px 20px; text-align: center; font-weight: 700; position: relative; }
+  .tree-node .node-label { font-size: 11px; font-weight: 400; opacity: 0.7; margin-bottom: 2px; }
+  .tree-node .node-text { font-size: 14px; }
+  .node-kgi { background: #1e3a8a; color: #fff; min-width: 200px; font-size: 16px; padding: 16px 28px; }
+  .node-kpi { background: #2563eb; color: #fff; min-width: 140px; }
+  .node-kpi2 { background: #3b82f6; color: #fff; min-width: 110px; }
+  .node-action { background: #dbeafe; color: #1e40af; min-width: 100px; font-size: 12px; padding: 10px 14px; }
+  .connector-v { width: 2px; height: 24px; background: #cbd5e1; margin: 0 auto; }
+  .connector-h-row { display: flex; justify-content: center; align-items: center; margin-bottom: 0; }
+  .tree-branch { display: flex; flex-direction: column; align-items: center; }
+  .h-line { height: 2px; background: #cbd5e1; }
+  .level-labels { display: flex; gap: 0; margin-bottom: 8px; }
+  .level-badge { font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 4px; letter-spacing: 1px; }
+  .badge-kgi { background: #1e3a8a; color: #fff; }
+  .badge-kpi { background: #2563eb; color: #fff; }
+  .badge-kpi2 { background: #3b82f6; color: #fff; }
+  .badge-action { background: #dbeafe; color: #1e40af; }
+  .tree-desc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+  .tree-desc-item { text-align: center; }
+  .tree-desc-item .td-badge { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 6px; }
+  .tree-desc-item p { font-size: 12px; color: #64748b; line-height: 1.5; }
+
+  /* ===== スライド5: 作り方ステップ ===== */
+  .s5 { background: #f8fafc; }
+  .steps { display: flex; flex-direction: column; gap: 16px; flex: 1; justify-content: center; }
+  .step-item { display: flex; gap: 20px; align-items: flex-start; }
+  .step-num-wrap { display: flex; flex-direction: column; align-items: center; }
+  .step-num { width: 44px; height: 44px; border-radius: 50%; background: #2563eb; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+  .step-line { width: 2px; flex: 1; min-height: 24px; background: #dbeafe; }
+  .step-content { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 20px; flex: 1; }
+  .step-content h3 { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
+  .step-content p { font-size: 13px; color: #64748b; line-height: 1.6; }
+  .step-content .step-example { background: #f1f5f9; border-radius: 6px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: #475569; }
+  .step-content .step-example strong { color: #2563eb; }
+
+  /* ===== スライド6: 具体例 ===== */
+  .s6 { background: #f8fafc; }
+  .example-tree { flex: 1; }
+  .ex-context { background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #92400e; margin-bottom: 20px; }
+  .ex-context strong { color: #78350f; }
+  .kpi-tree-diagram { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  /* KGI */
+  .ex-kgi { background: #1e3a8a; color: #fff; border-radius: 10px; padding: 12px 32px; font-weight: 800; font-size: 16px; text-align: center; }
+  .ex-kgi small { display: block; font-size: 11px; font-weight: 400; opacity: 0.7; }
+  /* 矢印 */
+  .arr-down { width: 2px; height: 20px; background: #94a3b8; margin: 0 auto; }
+  /* KPI行 */
+  .ex-kpi-row { display: flex; gap: 16px; justify-content: center; }
+  .ex-kpi-col { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .ex-kpi { background: #2563eb; color: #fff; border-radius: 10px; padding: 10px 16px; font-weight: 700; font-size: 13px; text-align: center; min-width: 130px; }
+  .ex-kpi small { display: block; font-size: 10px; font-weight: 400; opacity: 0.75; }
+  /* サブKPI行 */
+  .ex-sub-row { display: flex; gap: 8px; justify-content: center; }
+  .ex-sub { background: #dbeafe; color: #1e40af; border-radius: 8px; padding: 8px 10px; font-size: 11px; font-weight: 600; text-align: center; min-width: 90px; }
+  .ex-sub small { display: block; font-size: 10px; font-weight: 400; color: #3b82f6; }
+  /* アクション */
+  .ex-action-row { display: flex; gap: 6px; justify-content: center; }
+  .ex-action { background: #f0fdf4; border: 1px solid #86efac; color: #166534; border-radius: 6px; padding: 6px 8px; font-size: 10px; text-align: center; min-width: 80px; }
+
+  /* ===== スライド7: よくある失敗 ===== */
+  .s7 { background: #f8fafc; }
+  .fail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; align-content: start; margin-top: 8px; }
+  .fail-item { background: #fff; border-radius: 12px; padding: 20px; border-left: 4px solid #ef4444; border: 1px solid #fecaca; border-left: 4px solid #ef4444; }
+  .fail-item .fail-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; color: #991b1b; margin-bottom: 8px; }
+  .fail-item .fail-bad { background: #fee2e2; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #7f1d1d; margin-bottom: 8px; }
+  .fail-item .fail-good { background: #f0fdf4; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #14532d; }
+  .fail-good::before { content: "✓ "; font-weight: 700; color: #16a34a; }
+  .fail-bad::before { content: "✗ "; font-weight: 700; color: #dc2626; }
+
+  /* ===== スライド8: PDCAとの連携 ===== */
+  .s8 { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color: #fff; }
+  .s8 .slide-title { color: #fff; }
+  .s8 .slide-num { color: #93c5fd; }
+  .s8 .slide-divider { background: #93c5fd; }
+  .connect-flow { display: flex; align-items: center; gap: 0; flex: 1; justify-content: center; }
+  .connect-box { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px 20px; text-align: center; flex: 1; }
+  .connect-box .cb-icon { font-size: 36px; margin-bottom: 12px; }
+  .connect-box h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .connect-box p { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+  .connect-arrow { font-size: 28px; color: #93c5fd; padding: 0 12px; flex-shrink: 0; }
+  .s8-bottom { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; margin-top: 24px; }
+  .s8-bottom h3 { color: #fbbf24; font-size: 15px; margin-bottom: 10px; }
+  .s8-bottom ul { list-style: none; display: flex; gap: 24px; flex-wrap: wrap; }
+  .s8-bottom li { font-size: 13px; color: rgba(255,255,255,0.8); padding-left: 16px; position: relative; }
+  .s8-bottom li::before { content: "→"; position: absolute; left: 0; color: #93c5fd; }
+
+  /* ===== スライド9: まとめ ===== */
+  .s9 { background: #f8fafc; }
+  .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; flex: 1; align-content: start; margin-top: 8px; }
+  .summary-card { background: #fff; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0; text-align: center; }
+  .summary-card .sc-num { width: 48px; height: 48px; border-radius: 50%; background: #2563eb; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin: 0 auto 14px; }
+  .summary-card h3 { font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+  .summary-card p { font-size: 12px; color: #64748b; line-height: 1.6; }
+  .summary-cta { background: #1e3a8a; color: #fff; border-radius: 12px; padding: 20px 24px; margin-top: 20px; display: flex; align-items: center; justify-content: space-between; }
+  .summary-cta p { font-size: 15px; }
+  .summary-cta strong { font-size: 18px; display: block; margin-bottom: 4px; }
+  .cta-btn { background: #fbbf24; color: #78350f; font-weight: 700; padding: 10px 24px; border-radius: 8px; font-size: 14px; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ナビゲーション -->
+<div class="nav">
+  <span class="nav-title">KPIツリー 教育資料</span>
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="prevSlide()">◀ 前へ</button>
+    <button class="nav-btn" onclick="nextSlide()">次へ ▶</button>
+  </div>
+  <span class="slide-counter" id="counter">1 / 9</span>
+</div>
+
+<div class="slides-container">
+
+<!-- ===== SLIDE 1: タイトル ===== -->
+<div class="slide s1 active">
+  <div class="slide-inner" style="position:relative">
+    <div class="s1-tag">SKILL DEVELOPMENT PROGRAM</div>
+    <div class="s1-title">KPIツリーで<br>目標を<span>分解する</span></div>
+    <div class="s1-sub">数字をつなげて、行動を変える思考法</div>
+    <div class="s1-meta">
+      <div class="s1-meta-item"><strong>対象</strong>営業・マーケ・企画職</div>
+      <div class="s1-meta-item"><strong>所要時間</strong>約60分</div>
+      <div class="s1-meta-item"><strong>難易度</strong>★★☆☆☆</div>
+    </div>
+    <div style="margin-top:40px;display:flex;gap:12px;flex-wrap:wrap">
+      <span style="background:rgba(255,255,255,0.15);color:#fff;padding:6px 14px;border-radius:20px;font-size:13px">KPI設計</span>
+      <span style="background:rgba(255,255,255,0.15);color:#fff;padding:6px 14px;border-radius:20px;font-size:13px">ロジックツリー</span>
+      <span style="background:rgba(255,255,255,0.15);color:#fff;padding:6px 14px;border-radius:20px;font-size:13px">PDCA連携</span>
+      <span style="background:rgba(255,255,255,0.15);color:#fff;padding:6px 14px;border-radius:20px;font-size:13px">目標管理</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 2: アジェンダ ===== -->
+<div class="slide s2">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">AGENDA</div>
+      <div class="slide-title">本日の<span>学習内容</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="agenda-list">
+      <div class="agenda-item">
+        <div class="agenda-num">1</div>
+        <div>
+          <div class="agenda-text">KPIツリーとは何か</div>
+          <div class="agenda-desc">定義・目的・なぜ必要なのか</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">2</div>
+        <div>
+          <div class="agenda-text">KPIツリーの構造を理解する</div>
+          <div class="agenda-desc">KGI / KPI / サブKPI / アクション の階層</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">3</div>
+        <div>
+          <div class="agenda-text">KPIツリーの作り方（5ステップ）</div>
+          <div class="agenda-desc">ゴール設定から因数分解まで</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">4</div>
+        <div>
+          <div class="agenda-text">具体例で学ぶ</div>
+          <div class="agenda-desc">営業部門のKPIツリー実例</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">5</div>
+        <div>
+          <div class="agenda-text">よくある失敗と対策 / PDCAとの連携</div>
+          <div class="agenda-desc">現場でありがちなミスと改善の回し方</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 3: KPIツリーとは ===== -->
+<div class="slide s3">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">CHAPTER 1</div>
+      <div class="slide-title">KPIツリーとは<span>何か</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="def-box">
+          <h3>DEFINITION</h3>
+          <p>
+            最終目標（<span class="keyword">KGI</span>）を達成するために必要な<span class="keyword">指標を階層的に分解</span>した図のこと。<br><br>
+            「売上を上げる」という抽象的な目標を、<span class="keyword">誰が・何を・どれだけ</span>やればいいか、具体的な行動レベルまで落とし込むツール。
+          </p>
+        </div>
+        <div style="margin-top:16px;background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e8f0">
+          <div style="font-size:12px;color:#94a3b8;margin-bottom:8px">KPI とは？</div>
+          <div style="font-size:13px;color:#475569;line-height:1.6">
+            <strong style="color:#1e293b">K</strong>ey <strong style="color:#1e293b">P</strong>erformance <strong style="color:#1e293b">I</strong>ndicator<br>
+            「重要業績評価指標」の略。目標達成度を測るための定量的な指標。
+          </div>
+        </div>
+      </div>
+      <div class="why-list">
+        <div style="font-size:14px;font-weight:700;color:#64748b;margin-bottom:4px">なぜKPIツリーが必要か</div>
+        <div class="why-item">
+          <div class="why-icon">🎯</div>
+          <div class="why-text">
+            <strong>「何をすればいいか」が明確になる</strong>
+            <span>漠然とした目標が具体的な行動に変わる</span>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🔍</div>
+          <div class="why-text">
+            <strong>問題の原因を素早く特定できる</strong>
+            <span>どの指標が悪化しているかを素早く特定できる</span>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">👥</div>
+          <div class="why-text">
+            <strong>チームで共通認識が持てる</strong>
+            <span>全員が同じゴールに向かって動ける</span>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">📈</div>
+          <div class="why-text">
+            <strong>PDCAが回しやすくなる</strong>
+            <span>どこを改善すべきかが数字で見える</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 4: 構造 ===== -->
+<div class="slide s4">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">CHAPTER 2</div>
+      <div class="slide-title">KPIツリーの<span>構造</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="tree-visual">
+      <!-- KGI -->
+      <div style="background:#1e3a8a;color:#fff;border-radius:12px;padding:14px 40px;text-align:center;font-weight:800;font-size:17px">
+        <div style="font-size:11px;font-weight:400;opacity:0.7;margin-bottom:3px">KGI｜最終目標</div>
+        年間売上 1億円
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div style="width:2px;height:20px;background:#94a3b8"></div>
+        <!-- KPI行 -->
+        <div style="display:flex;gap:0;align-items:flex-start">
+          <!-- 左ライン -->
+          <div style="display:flex;flex-direction:column;align-items:flex-end;padding-top:0">
+            <div style="width:180px;height:2px;background:#94a3b8;margin-right:-1px;margin-top:0"></div>
+          </div>
+          <!-- 中央縦線 -->
+          <div style="width:2px;height:20px;background:#94a3b8"></div>
+          <!-- 右ライン -->
+          <div style="display:flex;flex-direction:column;align-items:flex-start">
+            <div style="width:180px;height:2px;background:#94a3b8;margin-left:-1px;margin-top:0"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:32px;align-items:flex-start">
+          <!-- 新規顧客ツリー -->
+          <div style="display:flex;flex-direction:column;align-items:center">
+            <div style="background:#2563eb;color:#fff;border-radius:10px;padding:10px 20px;font-weight:700;font-size:14px;text-align:center;min-width:150px">
+              <div style="font-size:10px;font-weight:400;opacity:0.75;margin-bottom:2px">KPI</div>
+              新規顧客売上
+            </div>
+            <div style="width:2px;height:16px;background:#94a3b8"></div>
+            <div style="display:flex;gap:0">
+              <div style="width:80px;height:2px;background:#94a3b8;margin-top:0;align-self:flex-start;margin-top:0"></div>
+              <div style="width:2px;height:14px;background:#94a3b8"></div>
+              <div style="width:80px;height:2px;background:#94a3b8;align-self:flex-start"></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="background:#dbeafe;color:#1e40af;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;text-align:center;min-width:90px">
+                  <div style="font-size:10px;color:#3b82f6;margin-bottom:1px">サブKPI</div>
+                  商談件数
+                </div>
+                <div style="width:2px;height:12px;background:#94a3b8"></div>
+                <div style="background:#f0fdf4;border:1px solid #86efac;color:#166534;border-radius:6px;padding:6px 8px;font-size:10px;text-align:center;min-width:80px">
+                  アクション<br>架電数・訪問数
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="background:#dbeafe;color:#1e40af;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;text-align:center;min-width:90px">
+                  <div style="font-size:10px;color:#3b82f6;margin-bottom:1px">サブKPI</div>
+                  成約率
+                </div>
+                <div style="width:2px;height:12px;background:#94a3b8"></div>
+                <div style="background:#f0fdf4;border:1px solid #86efac;color:#166534;border-radius:6px;padding:6px 8px;font-size:10px;text-align:center;min-width:80px">
+                  アクション<br>提案書精度向上
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 既存顧客ツリー -->
+          <div style="display:flex;flex-direction:column;align-items:center">
+            <div style="background:#2563eb;color:#fff;border-radius:10px;padding:10px 20px;font-weight:700;font-size:14px;text-align:center;min-width:150px">
+              <div style="font-size:10px;font-weight:400;opacity:0.75;margin-bottom:2px">KPI</div>
+              既存顧客売上
+            </div>
+            <div style="width:2px;height:16px;background:#94a3b8"></div>
+            <div style="display:flex;gap:0">
+              <div style="width:80px;height:2px;background:#94a3b8;align-self:flex-start"></div>
+              <div style="width:2px;height:14px;background:#94a3b8"></div>
+              <div style="width:80px;height:2px;background:#94a3b8;align-self:flex-start"></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="background:#dbeafe;color:#1e40af;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;text-align:center;min-width:90px">
+                  <div style="font-size:10px;color:#3b82f6;margin-bottom:1px">サブKPI</div>
+                  継続率
+                </div>
+                <div style="width:2px;height:12px;background:#94a3b8"></div>
+                <div style="background:#f0fdf4;border:1px solid #86efac;color:#166534;border-radius:6px;padding:6px 8px;font-size:10px;text-align:center;min-width:80px">
+                  アクション<br>定期フォロー
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="background:#dbeafe;color:#1e40af;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;text-align:center;min-width:90px">
+                  <div style="font-size:10px;color:#3b82f6;margin-bottom:1px">サブKPI</div>
+                  単価向上
+                </div>
+                <div style="width:2px;height:12px;background:#94a3b8"></div>
+                <div style="background:#f0fdf4;border:1px solid #86efac;color:#166534;border-radius:6px;padding:6px 8px;font-size:10px;text-align:center;min-width:80px">
+                  アクション<br>アップセル提案
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 凡例 -->
+      <div style="display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;justify-content:center">
+        <span style="background:#1e3a8a;color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">KGI：最終ゴール</span>
+        <span style="background:#2563eb;color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">KPI：中間指標</span>
+        <span style="background:#dbeafe;color:#1e40af;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">サブKPI：詳細指標</span>
+        <span style="background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">アクション：具体行動</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 5: 作り方 ===== -->
+<div class="slide s5">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">CHAPTER 3</div>
+      <div class="slide-title">KPIツリーの<span>作り方</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h3>KGI（最終目標）を数値で定義する</h3>
+          <p>「何を・いつまでに・どれだけ」を明確にする。曖昧な表現は禁止。</p>
+          <div class="step-example">例：<strong>「年度末までに売上1億円を達成する」</strong>（×「売上を伸ばす」）</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h3>KGIを構成要素に分解する（MECE）</h3>
+          <p>「KGIはどの要素に分解できるか？」を考える。漏れなくダブりなく。</p>
+          <div class="step-example">例：<strong>売上 ＝ 新規顧客売上 ＋ 既存顧客売上</strong>（数式で表現できると◎）</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h3>各KPIをさらに分解してサブKPIにする</h3>
+          <p>「そのKPIは何によって決まるか？」を繰り返す。行動レベルになるまで続ける。</p>
+          <div class="step-example">例：<strong>新規顧客売上 ＝ 商談件数 × 成約率 × 平均単価</strong></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">4</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h3>各指標に数値目標を設定する</h3>
+          <p>「現状値」と「目標値」を両方設定。目標は根拠のある数字にする。</p>
+          <div class="step-example">例：<strong>商談件数 現状20件/月 → 目標30件/月（+50%）</strong></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-wrap">
+          <div class="step-num">5</div>
+          <div style="width:2px;flex:1;background:transparent"></div>
+        </div>
+        <div class="step-content">
+          <h3>担当者・計測方法・計測頻度を決める</h3>
+          <p>誰が・どのデータで・いつ確認するかを決めないとKPIは機能しない。</p>
+          <div class="step-example">例：<strong>商談件数 → 営業部Aさん・SFAで集計・毎週月曜確認</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 6: 具体例 ===== -->
+<div class="slide s6">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">CHAPTER 4</div>
+      <div class="slide-title">具体例で<span>見てみよう</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="ex-context">
+      <strong>シナリオ：</strong>法人営業チーム（5名）が来期の売上目標を立てる場面
+    </div>
+    <div class="kpi-tree-diagram">
+      <div class="ex-kgi">年間売上 1億2,000万円<small>KGI | 前年比 +20%</small></div>
+      <div class="arr-down"></div>
+      <div class="ex-kpi-row">
+        <div class="ex-kpi-col">
+          <div style="width:2px;height:0;background:#94a3b8"></div>
+          <div style="display:flex;align-items:flex-start">
+            <div style="width:100px;height:2px;background:#94a3b8;margin-top:0;align-self:center"></div>
+            <div style="width:2px;height:14px;background:#94a3b8"></div>
+            <div style="width:100px;height:2px;background:#94a3b8;align-self:center"></div>
+          </div>
+          <div style="display:flex;gap:16px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+              <div class="ex-kpi">新規顧客売上 6,000万<small>KPI</small></div>
+              <div class="arr-down"></div>
+              <div style="display:flex;gap:6px">
+                <div style="display:flex;flex-direction:column;align-items:center">
+                  <div style="width:40px;height:2px;background:#94a3b8"></div>
+                  <div style="width:2px;height:10px;background:#94a3b8"></div>
+                  <div class="ex-sub">商談件数<small>月30件</small></div>
+                  <div class="arr-down" style="height:10px"></div>
+                  <div class="ex-action">架電・訪問<br>DM施策</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center">
+                  <div style="width:40px;height:2px;background:#94a3b8"></div>
+                  <div style="width:2px;height:10px;background:#94a3b8"></div>
+                  <div class="ex-sub">成約率<small>35%目標</small></div>
+                  <div class="arr-down" style="height:10px"></div>
+                  <div class="ex-action">提案書改善<br>ロープレ</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center">
+                  <div style="width:40px;height:2px;background:#94a3b8"></div>
+                  <div style="width:2px;height:10px;background:#94a3b8"></div>
+                  <div class="ex-sub">平均単価<small>57万/件</small></div>
+                  <div class="arr-down" style="height:10px"></div>
+                  <div class="ex-action">上位プラン<br>提案強化</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
+              <div class="ex-kpi">既存顧客売上 6,000万<small>KPI</small></div>
+              <div class="arr-down"></div>
+              <div style="display:flex;gap:6px">
+                <div style="display:flex;flex-direction:column;align-items:center">
+                  <div style="width:40px;height:2px;background:#94a3b8"></div>
+                  <div style="width:2px;height:10px;background:#94a3b8"></div>
+                  <div class="ex-sub">継続率<small>90%以上</small></div>
+                  <div class="arr-down" style="height:10px"></div>
+                  <div class="ex-action">定期訪問<br>満足度調査</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center">
+                  <div style="width:40px;height:2px;background:#94a3b8"></div>
+                  <div style="width:2px;height:10px;background:#94a3b8"></div>
+                  <div class="ex-sub">アップセル率<small>20%目標</small></div>
+                  <div class="arr-down" style="height:10px"></div>
+                  <div class="ex-action">上位移行<br>提案数</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 7: よくある失敗 ===== -->
+<div class="slide s7">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">CHAPTER 5</div>
+      <div class="slide-title">よくある<span>失敗パターン</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="fail-grid">
+      <div class="fail-item">
+        <div class="fail-title">⚠️ KGIが曖昧</div>
+        <div class="fail-bad">「売上を増やしたい」「もっと頑張る」</div>
+        <div class="fail-good">「Q3末までに売上1億円（前年比+20%）」と数値・期限を明記</div>
+      </div>
+      <div class="fail-item">
+        <div class="fail-title">⚠️ KPIが多すぎる</div>
+        <div class="fail-bad">指標を20個以上設定して何も管理できない</div>
+        <div class="fail-good">最優先KPIは3〜5個に絞る。残りは参考値として扱う</div>
+      </div>
+      <div class="fail-item">
+        <div class="fail-title">⚠️ アクションと結びついていない</div>
+        <div class="fail-bad">KPIを設定しても「じゃあ何をすればいいの？」が不明</div>
+        <div class="fail-good">各KPIに必ず「具体的なアクション」をセットで紐付ける</div>
+      </div>
+      <div class="fail-item">
+        <div class="fail-title">⚠️ 計測できない指標を設定する</div>
+        <div class="fail-bad">「顧客満足度を高める」（どうやって測る？）</div>
+        <div class="fail-good">「NPS◯点以上」「リピート率◯%」など数値で計測できる形にする</div>
+      </div>
+    </div>
+    <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:10px;padding:14px 18px;margin-top:16px;font-size:13px;color:#92400e">
+      💡 <strong>鉄則：</strong>「作って終わり」にしない。週次・月次でKPIを確認し、ずれたら原因を分析してアクションを修正する。
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 8: PDCAとの連携 ===== -->
+<div class="slide s8">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">CHAPTER 6</div>
+      <div class="slide-title">PDCAとの<span style="color:#93c5fd">連携</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="connect-flow" style="margin-top:16px">
+      <div class="connect-box">
+        <div class="cb-icon">📊</div>
+        <h3>KPIツリー</h3>
+        <p>目標と指標の<br>全体設計図</p>
+      </div>
+      <div class="connect-arrow">→</div>
+      <div class="connect-box" style="border-color:#fbbf24">
+        <div class="cb-icon">📋</div>
+        <h3>Plan（計画）</h3>
+        <p>KPIを元に<br>アクションを計画</p>
+      </div>
+      <div class="connect-arrow">→</div>
+      <div class="connect-box">
+        <div class="cb-icon">🚀</div>
+        <h3>Do（実行）</h3>
+        <p>計画した<br>アクションを実行</p>
+      </div>
+      <div class="connect-arrow">→</div>
+      <div class="connect-box">
+        <div class="cb-icon">🔍</div>
+        <h3>Check（確認）</h3>
+        <p>KPIの数値を<br>モニタリング</p>
+      </div>
+      <div class="connect-arrow">→</div>
+      <div class="connect-box" style="border-color:#34d399">
+        <div class="cb-icon">⚡</div>
+        <h3>Action（改善）</h3>
+        <p>ずれた指標の<br>原因を特定し修正</p>
+      </div>
+    </div>
+    <div class="s8-bottom">
+      <h3>KPIツリーがあると「Check → Action」が劇的に速くなる</h3>
+      <ul>
+        <li>売上が下がったとき、どのKPIが原因かすぐ特定できる</li>
+        <li>問題のある指標だけを集中して改善できる</li>
+        <li>チーム全員が同じ数字を見て議論できる</li>
+        <li>改善策の効果が数字で確認できる</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: まとめ ===== -->
+<div class="slide s9">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="slide-num">SUMMARY</div>
+      <div class="slide-title">本日の<span>まとめ</span></div>
+      <div class="slide-divider"></div>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="sc-num">1</div>
+        <h3>KGIから分解する</h3>
+        <p>最終目標を数値で設定し、構成要素に分解。MECEを意識する</p>
+      </div>
+      <div class="summary-card">
+        <div class="sc-num">2</div>
+        <h3>行動レベルまで落とす</h3>
+        <p>「誰が・何を・いつ・どれだけ」まで分解してはじめて機能する</p>
+      </div>
+      <div class="summary-card">
+        <div class="sc-num">3</div>
+        <h3>必ず数値で計測する</h3>
+        <p>計測できない指標はKPIではない。計測方法と頻度も必ず決める</p>
+      </div>
+      <div class="summary-card">
+        <div class="sc-num">4</div>
+        <h3>指標は絞る</h3>
+        <p>優先KPIは3〜5個。多すぎると全部管理できず意味がなくなる</p>
+      </div>
+      <div class="summary-card">
+        <div class="sc-num">5</div>
+        <h3>PDCAと組み合わせる</h3>
+        <p>週次・月次で確認し、ずれたら即原因分析。作って終わりにしない</p>
+      </div>
+      <div class="summary-card" style="background:#1e3a8a;border-color:#1e3a8a">
+        <div class="sc-num" style="background:rgba(255,255,255,0.2)">🎯</div>
+        <h3 style="color:#fff">今日からやること</h3>
+        <p style="color:rgba(255,255,255,0.75)">自分の業務のKGIを1つ設定し、3階層のKPIツリーを書いてみる</p>
+      </div>
+    </div>
+    <div class="summary-cta">
+      <div>
+        <strong>次のステップ</strong>
+        <p>PDCAフォーマットアプリにKPIツリーを入力してPDCAを回してみよう</p>
+      </div>
+      <div class="cta-btn">アプリを開く →</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /slides-container -->
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const counter = document.getElementById('counter');
+const total = slides.length;
+
+function showSlide(n) {
+  slides[current].classList.remove('active');
+  current = (n + total) % total;
+  slides[current].classList.add('active');
+  counter.textContent = (current + 1) + ' / ' + total;
+}
+function nextSlide() { showSlide(current + 1); }
+function prevSlide() { showSlide(current - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+});
+</script>
+</body>
+</html>
