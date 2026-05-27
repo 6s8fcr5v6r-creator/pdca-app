@@ -3,998 +3,1466 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>問題解決型ストーリーフォーマット 研修資料</title>
+<title>問題解決型ストーリーフォーマット 全手法研修</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #0f172a; color: #1e293b; }
 
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 48px; gap: 12px; }
-.nav-title { color: #fff; font-size: 12px; opacity: 0.6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
-.nav-btns { display: flex; gap: 6px; flex-shrink: 0; }
-.nav-btn { background: rgba(255,255,255,0.15); border: none; color: #fff; padding: 5px 14px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+/* ナビ */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 46px; gap: 10px; }
+.nav-title { color: #fff; font-size: 11px; opacity: 0.6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 280px; }
+.nav-btns { display: flex; gap: 5px; flex-shrink: 0; }
+.nav-btn { background: rgba(255,255,255,0.15); border: none; color: #fff; padding: 4px 13px; border-radius: 5px; cursor: pointer; font-size: 12px; }
 .nav-btn:hover { background: rgba(255,255,255,0.28); }
-.nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.slide-counter { color: #fff; font-size: 12px; opacity: 0.6; white-space: nowrap; }
-.time-badge { background: rgba(255,255,255,0.12); color: #93c5fd; font-size: 11px; padding: 3px 10px; border-radius: 10px; }
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.slide-counter { color: #fff; font-size: 11px; opacity: 0.6; white-space: nowrap; }
+.time-badge { background: rgba(255,255,255,0.12); color: #93c5fd; font-size: 10px; padding: 2px 9px; border-radius: 10px; }
 
-.slides-container { padding-top: 48px; }
-.slide { display: none; width: 100vw; min-height: calc(100vh - 48px); }
+/* スライドエリア */
+.slides-container { padding-top: 46px; }
+.slide { display: none; width: 100vw; min-height: calc(100vh - 46px); }
 .slide.active { display: flex; flex-direction: column; }
-.slide-inner { width: 100%; max-width: 980px; margin: 0 auto; padding: 36px 48px; flex: 1; display: flex; flex-direction: column; }
+.slide-inner { width: 100%; max-width: 960px; margin: 0 auto; padding: 32px 44px; flex: 1; display: flex; flex-direction: column; }
 
 /* 共通ヘッダー */
-.slide-hdr { margin-bottom: 24px; }
-.slide-step-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #64748b; margin-bottom: 8px; }
-.slide-h1 { font-size: 30px; font-weight: 800; color: #0f172a; line-height: 1.2; }
-.slide-h1 em { font-style: normal; }
-.slide-sub { font-size: 14px; color: #64748b; margin-top: 6px; }
-.accent-bar { width: 48px; height: 4px; border-radius: 2px; margin-top: 12px; }
+.slide-hdr { margin-bottom: 20px; }
+.slide-step-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
+.slide-h1 { font-size: 28px; font-weight: 800; color: #0f172a; line-height: 1.2; }
+.slide-sub { font-size: 13px; color: #64748b; margin-top: 5px; }
+.accent-bar { width: 44px; height: 4px; border-radius: 2px; margin-top: 10px; }
 
 /* カラー */
-.c-plan { color: #2563eb; } .bg-plan { background: #2563eb; } .bdr-plan { border-color: #93c5fd; }
-.c-do   { color: #059669; } .bg-do   { background: #059669; } .bdr-do   { border-color: #6ee7b7; }
-.c-chk  { color: #d97706; } .bg-chk  { background: #d97706; } .bdr-chk  { border-color: #fcd34d; }
-.c-act  { color: #dc2626; } .bg-act  { background: #dc2626; } .bdr-act  { border-color: #fca5a5; }
+.c-plan { color: #2563eb; } .bg-plan { background: #2563eb; }
+.c-do   { color: #059669; } .bg-do   { background: #059669; }
+.c-chk  { color: #d97706; } .bg-chk  { background: #d97706; }
+.c-act  { color: #dc2626; } .bg-act  { background: #dc2626; }
 .c-kpi  { color: #7c3aed; }
 
 /* ===== SLIDE 1: タイトル ===== */
 .s-title { background: linear-gradient(150deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%); }
 .s-title .slide-inner { justify-content: center; }
-.title-tag { display: inline-block; background: rgba(255,255,255,0.15); color: #93c5fd; font-size: 12px; font-weight: 700; padding: 5px 16px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 20px; }
-.title-h { font-size: 44px; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 12px; }
+.title-tag { display: inline-block; background: rgba(255,255,255,0.15); color: #93c5fd; font-size: 12px; font-weight: 700; padding: 4px 15px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 18px; }
+.title-h { font-size: 40px; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 10px; }
 .title-h span { color: #60a5fa; }
-.title-sub { font-size: 18px; color: rgba(255,255,255,0.65); margin-bottom: 36px; }
-.title-meta { display: flex; gap: 28px; flex-wrap: wrap; }
-.title-meta-item strong { display: block; font-size: 15px; color: #fff; margin-bottom: 2px; }
-.title-meta-item span { font-size: 12px; color: rgba(255,255,255,0.5); }
-.title-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px; }
-.title-chip { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); font-size: 12px; padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
+.title-sub { font-size: 16px; color: rgba(255,255,255,0.65); margin-bottom: 32px; }
+.title-meta-item strong { display: block; font-size: 14px; color: #fff; margin-bottom: 2px; }
+.title-meta-item span { font-size: 11px; color: rgba(255,255,255,0.5); }
+.title-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+.title-chip { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); font-size: 11px; padding: 4px 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.15); }
 
-/* ===== SLIDE 2: 全体像 ===== */
-.s-overview { background: #f8fafc; }
-.flow-steps { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; align-content: flex-start; margin-top: 8px; }
-.flow-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; flex: 1; min-width: 170px; border-left: 4px solid #e2e8f0; }
-.flow-card.plan { border-left-color: #3b82f6; }
-.flow-card.do   { border-left-color: #10b981; }
-.flow-card.chk  { border-left-color: #f59e0b; }
-.flow-card.act  { border-left-color: #ef4444; }
-.flow-card.kpi-hi { border: 2px solid #7c3aed; background: #faf5ff; }
-.flow-card-phase { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
-.flow-card-no { font-size: 22px; font-weight: 900; margin-bottom: 3px; }
-.flow-card-title { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
-.flow-card-desc { font-size: 11px; color: #64748b; line-height: 1.5; }
-.time-row { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
-.time-item { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px; }
-.time-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+/* 汎用グリッド */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
 
-/* ===== SLIDE 3: アプリ操作 ===== */
-.s-app { background: #f8fafc; }
-.app-mock { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex: 1; display: flex; flex-direction: column; }
-.app-mock-bar { background: #1e293b; height: 32px; display: flex; align-items: center; padding: 0 16px; gap: 6px; }
-.app-dot { width: 10px; height: 10px; border-radius: 50%; }
-.app-mock-body { display: flex; flex: 1; min-height: 320px; }
-.app-mock-sidebar { width: 180px; background: #f8fafc; border-right: 1px solid #e2e8f0; padding: 12px 0; flex-shrink: 0; }
-.app-mock-nav-item { padding: 8px 14px; font-size: 11px; color: #64748b; display: flex; align-items: center; gap: 7px; }
-.app-mock-nav-item.active { background: #eff6ff; color: #2563eb; font-weight: 700; border-left: 3px solid #2563eb; }
-.app-mock-main { flex: 1; padding: 18px; background: #f1f5f9; }
-.app-mock-card { background: #fff; border-radius: 8px; padding: 14px; margin-bottom: 10px; border: 1px solid #e2e8f0; font-size: 12px; }
-.app-mock-card-title { font-weight: 700; font-size: 13px; margin-bottom: 8px; color: #1e293b; }
-.app-tips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
-.app-tip { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
-.app-tip .tip-icon { font-size: 22px; margin-bottom: 6px; }
-.app-tip .tip-text { font-size: 12px; color: #475569; line-height: 1.5; }
-.app-tip strong { display: block; font-size: 13px; color: #1e293b; margin-bottom: 3px; }
+/* カード */
+.card { background: #fff; border-radius: 10px; padding: 16px; border: 1px solid #e2e8f0; }
+.card-sm { background: #fff; border-radius: 8px; padding: 12px; border: 1px solid #e2e8f0; }
+.card-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: #0f172a; }
 
-/* ===== STEP slides共通 ===== */
-.step-slide { background: #f8fafc; }
-.step-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; margin-bottom: 16px; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; align-content: start; }
-.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; flex: 1; align-content: start; }
-.info-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; }
-.info-box h3 { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 10px; }
-.info-box p, .info-box li { font-size: 13px; color: #475569; line-height: 1.7; }
-.info-box ul { padding-left: 16px; }
-.highlight-box { border-radius: 10px; padding: 18px; }
-.point-list { display: flex; flex-direction: column; gap: 10px; }
-.point-item { display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; }
-.point-icon { font-size: 20px; flex-shrink: 0; line-height: 1.2; }
-.point-text strong { display: block; font-size: 13px; color: #1e293b; margin-bottom: 2px; font-weight: 700; }
-.point-text span { font-size: 12px; color: #64748b; }
-.try-box { background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 14px 18px; margin-top: 14px; }
-.try-box .try-label { font-size: 11px; font-weight: 700; color: #2563eb; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-.try-box p { font-size: 13px; color: #1e3a8a; line-height: 1.6; }
-.example-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; }
-.example-box .ex-label { font-size: 10px; font-weight: 700; color: #92400e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-.example-box p { font-size: 12px; color: #78350f; line-height: 1.6; }
+/* 実践プロンプト */
+.practice-box { background: #fefce8; border: 2px solid #fbbf24; border-radius: 10px; padding: 14px 18px; margin-top: 16px; display: flex; gap: 12px; align-items: flex-start; }
+.practice-icon { font-size: 22px; flex-shrink: 0; }
+.practice-title { font-size: 12px; font-weight: 800; color: #92400e; letter-spacing: 0.5px; margin-bottom: 4px; }
+.practice-text { font-size: 13px; color: #78350f; line-height: 1.55; }
 
-/* ===== S01 ===== */
-.sym-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.sym-table th { background: #f1f5f9; padding: 8px; text-align: center; border: 1px solid #e2e8f0; font-size: 11px; }
-.sym-table td { padding: 8px 10px; border: 1px solid #e2e8f0; text-align: center; }
-.sym { font-weight: 700; font-size: 15px; }
-.sym-maru { color: #10b981; } .sym-ni-maru { color: #2563eb; }
-.sym-sankaku { color: #f59e0b; } .sym-batsu { color: #ef4444; }
+/* 手法バッジ */
+.method-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
 
-/* ===== S02 Gap ===== */
-.gap-visual { display: flex; align-items: center; gap: 12px; }
-.gap-box { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 16px; flex: 1; }
-.gap-box.ideal { border-color: #93c5fd; background: #eff6ff; }
-.gap-box.current { border-color: #6ee7b7; background: #ecfdf5; }
-.gap-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-.gap-val { font-size: 22px; font-weight: 800; }
-.gap-arrow { font-size: 28px; color: #94a3b8; flex-shrink: 0; }
-.gap-result { background: linear-gradient(135deg, #eff6ff, #f0fdf4); border: 2px solid #93c5fd; border-radius: 10px; padding: 14px 18px; text-align: center; margin-top: 12px; }
-.gap-result .gr-label { font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 4px; }
-.gap-result .gr-text { font-size: 18px; font-weight: 800; color: #1e293b; }
+/* ステップオーバービューカード */
+.step-ov-card { border-radius: 8px; padding: 10px 12px; border-left: 4px solid; }
 
-/* ===== KPI Tree ===== */
-.s-kpi { background: #faf5ff; }
-.kpi-node { border-radius: 10px; padding: 10px 18px; text-align: center; font-weight: 700; }
-.kpi-kgi { background: #1e3a8a; color: #fff; font-size: 15px; padding: 13px 32px; }
-.kpi-kgi small { display: block; font-size: 10px; font-weight: 400; opacity: 0.7; margin-bottom: 2px; }
-.kpi-kpi { background: #2563eb; color: #fff; font-size: 13px; min-width: 130px; }
-.kpi-kpi small { display: block; font-size: 10px; font-weight: 400; opacity: 0.75; margin-bottom: 1px; }
-.kpi-sub { background: #dbeafe; color: #1e40af; font-size: 11px; font-weight: 700; min-width: 100px; padding: 8px 12px; border-radius: 8px; }
-.kpi-sub small { display: block; font-size: 10px; font-weight: 400; color: #3b82f6; margin-bottom: 1px; }
-.kpi-action { background: #f0fdf4; border: 1px solid #86efac; color: #166534; font-size: 10px; padding: 6px 8px; border-radius: 6px; min-width: 86px; font-weight: 600; }
-.vline { width: 2px; height: 18px; background: #94a3b8; margin: 0 auto; }
-.hline { height: 2px; background: #94a3b8; }
-.tree-row { display: flex; gap: 0; justify-content: center; align-items: flex-start; }
-.tree-col { display: flex; flex-direction: column; align-items: center; }
+/* テーブル汎用 */
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tbl th { background: #f1f5f9; padding: 7px 10px; text-align: center; font-weight: 700; border: 1px solid #e2e8f0; font-size: 11px; }
+.tbl td { padding: 7px 10px; border: 1px solid #e2e8f0; text-align: center; vertical-align: middle; }
 
-/* ===== S04 Why ===== */
+/* シンボルバッジ */
+.sym { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; font-weight: 900; font-size: 15px; }
+.sym-maru2 { background: #fef9c3; color: #854d0e; }
+.sym-maru  { background: #dbeafe; color: #1e40af; }
+.sym-san   { background: #dcfce7; color: #166534; }
+.sym-batu  { background: #fee2e2; color: #991b1b; }
+
+/* ポイントボックス */
+.point-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; }
+.warn-box  { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 12px 14px; }
+.good-box  { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px 14px; }
+
+/* フロー矢印 */
+.flow-arrow { text-align: center; color: #94a3b8; font-size: 20px; padding: 4px 0; }
+
+/* ツリーダイアグラム */
+.tree-root { background: #7c3aed; color: #fff; border-radius: 8px; padding: 10px 16px; text-align: center; font-weight: 700; font-size: 13px; }
+.tree-l1 { background: #ede9fe; border: 2px solid #7c3aed; border-radius: 7px; padding: 8px 10px; text-align: center; font-size: 11px; font-weight: 700; color: #4c1d95; }
+.tree-l2 { background: #f5f3ff; border: 1px solid #c4b5fd; border-radius: 6px; padding: 6px 8px; text-align: center; font-size: 10px; color: #5b21b6; }
+.tree-l3 { background: #faf9ff; border: 1px solid #ddd6fe; border-radius: 5px; padding: 5px 8px; text-align: center; font-size: 10px; color: #6d28d9; }
+.tree-connector { display: flex; align-items: center; justify-content: center; color: #a78bfa; font-size: 12px; padding: 2px 0; }
+
+/* 4M1Eバッジ */
+.m4e-badge { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 11px; font-weight: 700; }
+.m4e-人   { background: #dbeafe; color: #1d4ed8; }
+.m4e-機械 { background: #fef9c3; color: #854d0e; }
+.m4e-材料 { background: #dcfce7; color: #15803d; }
+.m4e-方法 { background: #fce7f3; color: #9d174d; }
+.m4e-環境 { background: #f3e8ff; color: #6d28d9; }
+
+/* ギャップバー */
+.gap-vis { display: flex; align-items: flex-end; gap: 24px; justify-content: center; padding: 16px 0; }
+.gap-bar { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.gap-bar-body { width: 60px; border-radius: 6px 6px 0 0; }
+.gap-bar-label { font-size: 11px; font-weight: 700; color: #475569; }
+.gap-bar-val { font-size: 18px; font-weight: 900; }
+.gap-arrow-area { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 24px; }
+.gap-arrow { font-size: 28px; color: #ef4444; }
+.gap-label-red { font-size: 11px; font-weight: 800; color: #dc2626; background: #fee2e2; padding: 2px 8px; border-radius: 10px; }
+
+/* KPTグリッド */
+.kpt-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.kpt-card { border-radius: 8px; padding: 12px; }
+.kpt-keep { background: #f0fdf4; border: 2px solid #86efac; }
+.kpt-prob { background: #fff7ed; border: 2px solid #fed7aa; }
+.kpt-try  { background: #eff6ff; border: 2px solid #bfdbfe; }
+.kpt-lbl  { font-size: 13px; font-weight: 800; margin-bottom: 2px; }
+.kpt-sub  { font-size: 10px; color: #64748b; margin-bottom: 6px; }
+.kpt-item { font-size: 11px; color: #334155; line-height: 1.55; }
+
+/* メリデメ表 */
+.merit-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.merit-tbl th { background: #f8fafc; padding: 6px 8px; text-align: center; border: 1px solid #e2e8f0; font-size: 10px; font-weight: 700; }
+.merit-tbl td { padding: 6px 8px; border: 1px solid #e2e8f0; }
+
+/* ガントっぽい実施計画 */
+.plan-row { display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 12px; }
+.plan-hdr { font-weight: 700; color: #64748b; font-size: 10px; text-transform: uppercase; padding-bottom: 6px; border-bottom: 2px solid #e2e8f0; }
+
+/* CTA */
+.cta-btn { display: inline-block; background: #2563eb; color: #fff; font-size: 15px; font-weight: 700; padding: 12px 32px; border-radius: 10px; text-decoration: none; border: none; cursor: pointer; transition: background .15s; }
+.cta-btn:hover { background: #1d4ed8; }
+
+/* ハイライトテキスト */
+.hl { background: #fef08a; padding: 0 3px; border-radius: 3px; }
+.hl-blue { background: #bfdbfe; padding: 0 3px; border-radius: 3px; }
+
+/* 凡例ドット */
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; }
+
+/* セクションタイトル（背景付き） */
+.s-purple { background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 100%); }
+.s-blue   { background: linear-gradient(135deg, #0c1445 0%, #1e3a8a 100%); }
+.s-green  { background: linear-gradient(135deg, #052e16 0%, #065f46 100%); }
+.s-amber  { background: linear-gradient(135deg, #451a03 0%, #92400e 100%); }
+.s-red    { background: linear-gradient(135deg, #450a0a 0%, #991b1b 100%); }
+.s-slate  { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+
+.dark-slide .slide-h1 { color: #f8fafc; }
+.dark-slide .slide-step-tag { color: rgba(255,255,255,0.5); }
+.dark-slide .slide-sub { color: rgba(255,255,255,0.6); }
+
+/* 手法ナンバーバッジ */
+.method-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; font-size: 12px; font-weight: 900; color: #fff; flex-shrink: 0; margin-right: 4px; }
+
+/* なぜなぜチェーン */
 .why-chain { display: flex; flex-direction: column; gap: 0; }
-.why-node { border-radius: 8px; padding: 10px 14px; font-size: 13px; position: relative; }
-.why-n1 { background: #fef2f2; border: 1.5px solid #fca5a5; color: #991b1b; }
-.why-n2 { background: #fffbeb; border: 1.5px solid #fde68a; color: #92400e; margin-left: 20px; }
-.why-n3 { background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; margin-left: 40px; }
-.why-lbl { font-size: 10px; font-weight: 700; opacity: 0.7; margin-bottom: 2px; }
-.why-conn { width: 2px; height: 12px; background: #94a3b8; }
-.why-conn-n2 { margin-left: 30px; }
-.why-conn-n3 { margin-left: 50px; }
+.why-node { border-radius: 7px; padding: 8px 12px; font-size: 12px; position: relative; }
+.why-arrow { text-align: left; padding-left: 20px; color: #ef4444; font-size: 11px; font-weight: 700; }
+.why-lv1 { background: #fee2e2; border: 1.5px solid #fca5a5; color: #7f1d1d; }
+.why-lv2 { background: #fed7aa; border: 1.5px solid #fdba74; color: #7c2d12; margin-left: 20px; }
+.why-lv3 { background: #fef9c3; border: 1.5px solid #fde047; color: #713f12; margin-left: 40px; }
+.why-shinichi { background: #4c1d95; border: 2px solid #7c3aed; color: #fff; margin-left: 40px; font-weight: 700; }
 
-/* ===== S06 対策 ===== */
-.score-matrix { width: 100%; border-collapse: collapse; font-size: 12px; }
-.score-matrix th { background: #f1f5f9; padding: 8px; text-align: center; border: 1px solid #e2e8f0; font-size: 11px; }
-.score-matrix td { padding: 8px; border: 1px solid #e2e8f0; text-align: center; }
-.score-matrix tr.best td { background: #ecfdf5; border-color: #6ee7b7; }
-.score-chip { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 4px; font-size: 11px; font-weight: 700; }
-.sc-hi { background: #eff6ff; color: #1d4ed8; } .sc-md { background: #ecfdf5; color: #065f46; }
-.sc-lo { background: #fffbeb; color: #92400e; } .sc-no { background: #fef2f2; color: #991b1b; }
+/* Before/After */
+.ba-grid { display: grid; grid-template-columns: 1fr 40px 1fr; gap: 8px; align-items: center; }
+.ba-box { border-radius: 8px; padding: 12px; }
+.ba-before { background: #fee2e2; border: 1.5px solid #fca5a5; }
+.ba-after  { background: #d1fae5; border: 1.5px solid #6ee7b7; }
+.ba-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; opacity: 0.7; }
+.ba-val { font-size: 14px; font-weight: 700; }
 
-/* ===== S07/08 ===== */
-.ba-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-bottom: 12px; }
-.ba-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; }
-.ba-lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-.ba-val { font-size: 14px; font-weight: 700; color: #1e293b; }
-.ba-arrow { font-size: 22px; color: #94a3b8; text-align: center; }
-.kpt-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-.kpt-card { border-radius: 10px; padding: 16px; }
-.kpt-k { background: #ecfdf5; border: 1px solid #6ee7b7; }
-.kpt-p { background: #fef2f2; border: 1px solid #fca5a5; }
-.kpt-t { background: #eff6ff; border: 1px solid #93c5fd; }
-.kpt-lbl { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
-.kpt-k .kpt-lbl { color: #065f46; } .kpt-p .kpt-lbl { color: #991b1b; } .kpt-t .kpt-lbl { color: #1d4ed8; }
-.kpt-sub { font-size: 11px; color: #64748b; margin-bottom: 8px; }
-.kpt-ex { font-size: 12px; color: #475569; line-height: 1.6; }
+/* 5W1Hテーブル */
+.w5h1 { width: 100%; border-collapse: collapse; font-size: 12px; }
+.w5h1 td:first-child { background: #f8fafc; font-weight: 700; padding: 7px 10px; border: 1px solid #e2e8f0; width: 90px; color: #475569; }
+.w5h1 td:last-child { padding: 7px 10px; border: 1px solid #e2e8f0; }
 
-/* ===== まとめ ===== */
-.s-summary { background: linear-gradient(150deg, #0f172a 0%, #1e3a8a 100%); }
-.s-summary .slide-h1 { color: #fff; }
-.sum-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; flex: 1; align-content: start; }
-.sum-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 18px; text-align: center; }
-.sum-card .sc-num { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; margin: 0 auto 10px; }
-.sum-card h3 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-.sum-card p { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.5; }
-.sum-cta { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 18px 24px; margin-top: 16px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.sum-cta p { font-size: 13px; color: rgba(255,255,255,0.75); }
-.sum-cta strong { font-size: 16px; color: #fff; display: block; margin-bottom: 4px; }
-.cta-url { background: #fbbf24; color: #78350f; font-weight: 800; padding: 10px 22px; border-radius: 8px; font-size: 13px; text-decoration: none; display: inline-block; white-space: nowrap; }
+/* スコアシンボル */
+.score-sym { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 5px; font-size: 13px; font-weight: 900; }
 
-/* 進行時間バー */
-.time-progress { display: flex; align-items: center; gap: 4px; margin-top: 8px; }
-.tp-seg { height: 5px; border-radius: 2px; }
-
-@media(max-width:700px){
-  .slide-inner { padding: 20px 18px; }
-  .two-col, .three-col, .sum-grid { grid-template-columns: 1fr; }
-  .app-tips { grid-template-columns: 1fr 1fr; }
+/* レスポンシブ */
+@media (max-width: 700px) {
+  .slide-inner { padding: 20px 16px; }
+  .grid2, .grid3, .grid4 { grid-template-columns: 1fr; }
   .title-h { font-size: 28px; }
-  .kpt-row { grid-template-columns: 1fr; }
+  .kpt-grid, .ba-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- ナビゲーション -->
-<div class="nav">
-  <span class="nav-title" id="nav-title">問題解決型ストーリーフォーマット 研修資料</span>
+<!-- ナビゲーションバー -->
+<nav class="nav">
+  <span class="nav-title" id="navTitle">問題解決型ストーリーフォーマット 全手法研修</span>
   <div class="nav-btns">
-    <button class="nav-btn" onclick="prevSlide()">◀ 前へ</button>
-    <button class="nav-btn" onclick="nextSlide()">次へ ▶</button>
+    <button class="nav-btn" onclick="prevSlide()">← 前へ</button>
+    <button class="nav-btn" onclick="nextSlide()">次へ →</button>
   </div>
   <div class="nav-right">
-    <span class="time-badge" id="time-badge">⏱ 0分</span>
-    <span class="slide-counter" id="counter">1 / 13</span>
+    <span class="time-badge" id="timeBadge">0 min</span>
+    <span class="slide-counter" id="slideCounter">1 / 16</span>
   </div>
-</div>
+</nav>
 
 <div class="slides-container">
 
-<!-- ===== SLIDE 1: タイトル ===== -->
-<div class="slide s-title active" data-time="0" data-title="タイトル">
+<!-- ===================================================
+     SLIDE 1: タイトル
+     =================================================== -->
+<div class="slide s-title active" data-title="問題解決型ストーリーフォーマット 全手法研修" data-time="0">
   <div class="slide-inner">
-    <div class="title-tag">STAFF TRAINING PROGRAM 2025</div>
-    <div class="title-h">問題解決型<br><span>ストーリーフォーマット</span><br>研修資料</div>
-    <div class="title-sub">8つのステップで「なんとなく」を「確実な改善」に変える</div>
-    <div class="title-meta">
-      <div class="title-meta-item"><strong>所要時間</strong><span>約60分</span></div>
-      <div class="title-meta-item"><strong>対象</strong><span>グループ活動メンバー全員</span></div>
-      <div class="title-meta-item"><strong>準備物</strong><span>スマホ or PC（アプリ起動）</span></div>
-    </div>
+    <div class="title-tag">TRAINING MATERIAL</div>
+    <div class="title-h">問題解決型<br><span>10の手法</span>を<br>完全マスター</div>
+    <div class="title-sub">ストーリーフォーマット 全ステップ研修資料</div>
     <div class="title-chips">
-      <span class="title-chip">📋 PLAN（計画）</span>
-      <span class="title-chip">🚀 DO（実施）</span>
-      <span class="title-chip">📈 CHECK（確認）</span>
-      <span class="title-chip">🔄 ACT（改善）</span>
-      <span class="title-chip">🌿 KPIツリー</span>
+      <span class="title-chip">◎○△× 優先度評価</span>
+      <span class="title-chip">ギャップ分析</span>
+      <span class="title-chip">KPIツリー</span>
+      <span class="title-chip">ロジックツリー × なぜなぜ</span>
+      <span class="title-chip">4M1E</span>
+      <span class="title-chip">目標設定</span>
+      <span class="title-chip">HOWツリー</span>
+      <span class="title-chip">メリット・デメリット評価</span>
+      <span class="title-chip">実施計画</span>
+      <span class="title-chip">KPT振り返り</span>
+    </div>
+    <div style="margin-top:36px;display:flex;gap:28px;flex-wrap:wrap;">
+      <div class="title-meta-item"><strong>研修時間</strong><span>約 90 分</span></div>
+      <div class="title-meta-item"><strong>対象</strong><span>アプリ利用者全員</span></div>
+      <div class="title-meta-item"><strong>スライド数</strong><span>全16枚</span></div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 2: 全体像 ===== -->
-<div class="slide s-overview" data-time="3" data-title="全体の流れ（8ステップ）">
+<!-- ===================================================
+     SLIDE 2: 10の手法マップ
+     =================================================== -->
+<div class="slide" style="background:#f8fafc;" data-title="10の手法マップ — どのステップで何を使うか" data-time="2">
   <div class="slide-inner">
     <div class="slide-hdr">
       <div class="slide-step-tag">OVERVIEW</div>
-      <div class="slide-h1">全体の流れ<em style="color:#2563eb">（8ステップ）</em></div>
-      <div class="slide-sub">PDCAサイクルを8つのステップで完走する。KPIツリーはSTEP03の核心ツール。</div>
+      <div class="slide-h1">このフォーマットで使う<em style="color:#2563eb">10の手法</em></div>
+      <div class="slide-sub">各ステップに対応する手法を先に把握しておこう</div>
       <div class="accent-bar bg-plan"></div>
     </div>
-    <div class="flow-steps">
-      <div class="flow-card plan">
-        <div class="flow-card-phase c-plan">PLAN</div>
-        <div class="flow-card-no c-plan">01</div>
-        <div class="flow-card-title">問題点の列挙</div>
-        <div class="flow-card-desc">職場の困りごとを書き出し、◎○△×で優先順位をつける</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <!-- PLAN -->
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+        <span style="background:#2563eb;color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;">PLAN 計画</span>
       </div>
-      <div class="flow-card plan">
-        <div class="flow-card-phase c-plan">PLAN</div>
-        <div class="flow-card-no c-plan">02</div>
-        <div class="flow-card-title">ギャップ分析</div>
-        <div class="flow-card-desc">理想と現状の差を数値で把握し、取り組むテーマを決める</div>
+      <div class="grid3" style="margin-bottom:6px;">
+        <div class="card-sm" style="border-left:4px solid #2563eb;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 01</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">問題点の列挙</div>
+          <div style="background:#dbeafe;color:#1e40af;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法① ◎○△× 優先度評価</div>
+        </div>
+        <div class="card-sm" style="border-left:4px solid #2563eb;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 02</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">ギャップ分析</div>
+          <div style="background:#dbeafe;color:#1e40af;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法② ギャップ分析</div>
+        </div>
+        <div class="card-sm" style="border-left:4px solid #7c3aed;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 03</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">データ絞り込み</div>
+          <div style="background:#ede9fe;color:#4c1d95;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法③ KPIツリー</div>
+        </div>
       </div>
-      <div class="flow-card plan kpi-hi">
-        <div class="flow-card-phase c-kpi">PLAN ★KPI</div>
-        <div class="flow-card-no c-kpi">03</div>
-        <div class="flow-card-title">データ絞り込み</div>
-        <div class="flow-card-desc">KPIツリーで問題を3階層に分解して真の要因候補を特定</div>
+      <div class="grid2" style="margin-bottom:6px;">
+        <div class="card-sm" style="border-left:4px solid #2563eb;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 04</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">原因追及</div>
+          <div style="background:#fce7f3;color:#9d174d;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法④ ロジックツリー × なぜなぜ × 4M1E</div>
+        </div>
+        <div class="card-sm" style="border-left:4px solid #2563eb;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 05</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">目標設定</div>
+          <div style="background:#dbeafe;color:#1e40af;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法⑤ 何を・いつまでに・どうする</div>
+        </div>
       </div>
-      <div class="flow-card plan">
-        <div class="flow-card-phase c-plan">PLAN</div>
-        <div class="flow-card-no c-plan">04</div>
-        <div class="flow-card-title">原因追及</div>
-        <div class="flow-card-desc">「なぜ？」を3回繰り返して根本原因（真因）を見つける</div>
+      <!-- DO -->
+      <div style="display:flex;align-items:center;gap:6px;margin-top:4px;margin-bottom:2px;">
+        <span style="background:#059669;color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;">DO 実行</span>
       </div>
-      <div class="flow-card plan">
-        <div class="flow-card-phase c-plan">PLAN</div>
-        <div class="flow-card-no c-plan">05</div>
-        <div class="flow-card-title">目標設定</div>
-        <div class="flow-card-desc">「何を・いつまでに・どうする」を数字で明確にする</div>
+      <div class="grid3" style="margin-bottom:6px;">
+        <div class="card-sm" style="border-left:4px solid #059669;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 06a</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">対策案の列挙</div>
+          <div style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法⑥ HOWツリー（4M1E）</div>
+        </div>
+        <div class="card-sm" style="border-left:4px solid #059669;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 06b</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">対策評価</div>
+          <div style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法⑦ メリット・デメリット評価</div>
+        </div>
+        <div class="card-sm" style="border-left:4px solid #059669;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 06c</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">実施計画</div>
+          <div style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法⑧ 誰が・いつ・どうやる</div>
+        </div>
       </div>
-      <div class="flow-card do">
-        <div class="flow-card-phase c-do">DO</div>
-        <div class="flow-card-no c-do">06</div>
-        <div class="flow-card-title">対策検討・実施</div>
-        <div class="flow-card-desc">HOWツリーで対策を洗い出し、評価して実施計画をつくる</div>
+      <!-- CHECK / ACT -->
+      <div style="display:flex;gap:6px;margin-top:4px;margin-bottom:2px;">
+        <span style="background:#d97706;color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;">CHECK</span>
+        <span style="background:#dc2626;color:#fff;font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px;">ACT</span>
       </div>
-      <div class="flow-card chk">
-        <div class="flow-card-phase c-chk">CHECK</div>
-        <div class="flow-card-no c-chk">07</div>
-        <div class="flow-card-title">効果の確認</div>
-        <div class="flow-card-desc">Before/Afterで改善効果を数字で確認する</div>
+      <div class="grid2">
+        <div class="card-sm" style="border-left:4px solid #d97706;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 07</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">効果の確認</div>
+          <div style="background:#fef3c7;color:#92400e;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法⑨ Before/After 比較</div>
+        </div>
+        <div class="card-sm" style="border-left:4px solid #dc2626;">
+          <div style="font-size:10px;color:#64748b;font-weight:700;">STEP 08</div>
+          <div style="font-size:13px;font-weight:800;margin:2px 0;">振り返り</div>
+          <div style="background:#fee2e2;color:#991b1b;font-size:10px;font-weight:700;display:inline-block;padding:2px 8px;border-radius:10px;">手法⑩ 標準化（5W1H）+ KPT</div>
+        </div>
       </div>
-      <div class="flow-card act">
-        <div class="flow-card-phase c-act">ACT</div>
-        <div class="flow-card-no c-act">08</div>
-        <div class="flow-card-title">振り返り</div>
-        <div class="flow-card-desc">標準化・管理方法・KPTで次のサイクルへつなげる</div>
-      </div>
-    </div>
-    <div class="time-row">
-      <div class="time-item"><div class="time-dot" style="background:#3b82f6"></div>PLAN（01〜05）：約35分</div>
-      <div class="time-item"><div class="time-dot" style="background:#10b981"></div>DO（06）：約10分</div>
-      <div class="time-item"><div class="time-dot" style="background:#f59e0b"></div>CHECK（07）：約8分</div>
-      <div class="time-item"><div class="time-dot" style="background:#ef4444"></div>ACT（08）：約7分</div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 3: アプリ操作 ===== -->
-<div class="slide step-slide" data-time="7" data-title="アプリの使い方">
+<!-- ===================================================
+     SLIDE 3: アプリ基本操作
+     =================================================== -->
+<div class="slide" style="background:#f8fafc;" data-title="アプリの基本操作" data-time="5">
   <div class="slide-inner">
     <div class="slide-hdr">
-      <div class="slide-step-tag">HOW TO USE</div>
-      <div class="slide-h1">アプリの<em class="c-plan">基本操作</em></div>
-      <div class="slide-sub">スマホ・PCどちらでも使えます。データは端末に自動保存されます。</div>
+      <div class="slide-step-tag">GETTING STARTED</div>
+      <div class="slide-h1">アプリの基本操作</div>
+      <div class="slide-sub">研修を始める前に、アプリの使い方を確認しよう</div>
       <div class="accent-bar bg-plan"></div>
     </div>
-    <div class="app-tips" style="margin-bottom:16px">
-      <div class="app-tip">
-        <div class="tip-icon">📱</div>
-        <strong>URLを開く</strong>
-        <div class="tip-text">配布されたURLにアクセス。ブックマーク推奨。</div>
+    <div class="grid2" style="flex:1;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">📱 アクセス方法</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;">
+            ブラウザで以下のURLを開く：<br>
+            <code style="background:#f1f5f9;padding:4px 8px;border-radius:5px;font-size:11px;display:block;margin-top:5px;word-break:break-all;">https://6s8fcr5v6r-creator.github.io/pdca-app/</code>
+          </div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">💾 データの保存</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;">
+            入力した内容は<strong>ブラウザに自動保存</strong>。<br>
+            同じブラウザ・同じ端末で続きから再開できる。<br>
+            <span style="color:#dc2626;font-size:11px;">※ブラウザのキャッシュ削除で消えるので注意</span>
+          </div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">🖨️ PDF出力</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;">
+            各ページの「PDF出力」ボタン or<br>
+            <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:11px;">Ctrl+P</code>（Cmd+P）→ 「PDFに保存」
+          </div>
+        </div>
       </div>
-      <div class="app-tip">
-        <div class="tip-icon">🗂️</div>
-        <strong>左メニューで移動</strong>
-        <div class="tip-text">ステップを自由に行き来できます。スマホはハンバーガーメニューをタップ。</div>
-      </div>
-      <div class="app-tip">
-        <div class="tip-icon">💾</div>
-        <strong>自動保存</strong>
-        <div class="tip-text">入力のたびに自動保存。ページを閉じても内容は残ります。</div>
-      </div>
-      <div class="app-tip">
-        <div class="tip-icon">👥</div>
-        <strong>担当者を設定</strong>
-        <div class="tip-text">各ステップに担当者・期日・引継ぎ事項を入力できます。</div>
-      </div>
-      <div class="app-tip">
-        <div class="tip-icon">📊</div>
-        <strong>ダッシュボード</strong>
-        <div class="tip-text">進捗状況をパーセントで確認。完了チェックを忘れずに。</div>
-      </div>
-      <div class="app-tip">
-        <div class="tip-icon">🖨️</div>
-        <strong>PDF出力</strong>
-        <div class="tip-text">各ページから印刷・PDF保存が可能。提出資料として使えます。</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">📋 ナビゲーション</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;">
+            左サイドバーのSTEP番号をクリックして各ステップへ移動。<br>
+            ✓ マークが付いたステップは「完了」の印。
+          </div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">💡 ガイド・記入例</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;">
+            各ページに<span style="background:#fef9c3;border:1px solid #fde047;border-radius:3px;padding:1px 5px;font-size:11px;">💡 このステップでやること</span>があるので必ず読む。<br>
+            「記入例を見る▼」で入力サンプルを確認できる。
+          </div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">🔗 ステップ間のデータ連動</div>
+          <div style="font-size:12px;color:#475569;line-height:1.7;">
+            アプリは前後のSTEPと連動している：<br>
+            <span style="font-size:11px;">S02の現状値 → S07に自動反映</span><br>
+            <span style="font-size:11px;">S06aの★対策 → S06bに自動連動</span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="try-box">
-      <div class="try-label">✋ いまやってみよう</div>
-      <p>アプリを開いてダッシュボードを確認し、「プロジェクト情報」に活動内容とグループ名を入力してください。（約3分）</p>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 4: STEP 01 ===== -->
-<div class="slide step-slide" data-time="12" data-title="STEP 01｜問題点の列挙">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-plan">STEP 01 / PLAN</div>
-      <div class="slide-h1"><em class="c-plan">問題点の列挙</em></div>
-      <div class="slide-sub">職場の困りごとをたくさん書き出して、優先順位をつける</div>
-      <div class="accent-bar bg-plan"></div>
-    </div>
-    <div class="two-col">
-      <div class="point-list">
-        <div class="point-item">
-          <div class="point-icon">📝</div>
-          <div class="point-text"><strong>「困っていること」を書く</strong><span>「やりたいこと」ではなく、今起きている問題を書く</span></div>
-        </div>
-        <div class="point-item">
-          <div class="point-icon">📊</div>
-          <div class="point-text"><strong>必ず客観的データを添える</strong><span>「件数・割合・前年比」など数字で裏付ける</span></div>
-        </div>
-        <div class="point-item">
-          <div class="point-icon">⚠️</div>
-          <div class="point-text"><strong>各列で同じ記号は1回だけ</strong><span>緊急性・重要性・影響度・話題性の列ごとに◎○△×は重複禁止</span></div>
-        </div>
-        <div class="point-item">
-          <div class="point-icon">🏆</div>
-          <div class="point-text"><strong>最高得点がテーマ候補</strong><span>◎=9点 ○=5点 △=3点 ×=1点。合計最大36点。</span></div>
-        </div>
-      </div>
+    <div class="practice-box">
+      <div class="practice-icon">✋</div>
       <div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:12px">
-          <table class="sym-table">
+        <div class="practice-title">まずアプリを開いてみよう</div>
+        <div class="practice-text">上のURLにアクセスし、ダッシュボード画面が表示されることを確認する。左サイドバーのSTEP 01〜08を順番にクリックして各ページを眺めておこう。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 4: 手法① ◎○△× 優先度評価
+     =================================================== -->
+<div class="slide" style="background:#f8fafc;" data-title="手法① ◎○△× 優先度評価マトリクス — STEP 01" data-time="10">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag">STEP 01 / PLAN &nbsp;|&nbsp; 手法①</div>
+      <div class="slide-h1">◎○△× <em style="color:#2563eb">優先度評価マトリクス</em></div>
+      <div class="slide-sub">複数の問題をデータと4軸の評価で客観的に絞り込む</div>
+      <div class="accent-bar bg-plan"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <!-- 左：仕組みの説明 -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">評価の4軸</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
+            <div style="background:#eff6ff;border-radius:6px;padding:8px;"><strong>緊急性</strong><div style="color:#64748b;font-size:11px;margin-top:2px;">今すぐ対処が必要か</div></div>
+            <div style="background:#eff6ff;border-radius:6px;padding:8px;"><strong>重要性</strong><div style="color:#64748b;font-size:11px;margin-top:2px;">会社・職場にとって重大か</div></div>
+            <div style="background:#eff6ff;border-radius:6px;padding:8px;"><strong>影響度</strong><div style="color:#64748b;font-size:11px;margin-top:2px;">放置すると被害が大きいか</div></div>
+            <div style="background:#eff6ff;border-radius:6px;padding:8px;"><strong>話題性</strong><div style="color:#64748b;font-size:11px;margin-top:2px;">職場でよく話題になっているか</div></div>
+          </div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">シンボルと点数</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;">
+            <div><div class="sym sym-maru2" style="margin:0 auto 4px;">◎</div><div style="font-size:11px;font-weight:700;">最優先</div><div style="font-size:13px;font-weight:900;color:#2563eb;">9点</div></div>
+            <div><div class="sym sym-maru" style="margin:0 auto 4px;">○</div><div style="font-size:11px;font-weight:700;">優先</div><div style="font-size:13px;font-weight:900;color:#2563eb;">5点</div></div>
+            <div><div class="sym sym-san" style="margin:0 auto 4px;">△</div><div style="font-size:11px;font-weight:700;">低優先</div><div style="font-size:13px;font-weight:900;color:#2563eb;">3点</div></div>
+            <div><div class="sym sym-batu" style="margin:0 auto 4px;">×</div><div style="font-size:11px;font-weight:700;">後回し</div><div style="font-size:13px;font-weight:900;color:#2563eb;">1点</div></div>
+          </div>
+        </div>
+        <div class="warn-box" style="font-size:12px;">
+          <strong>⚠️ 絶対ルール：</strong><br>
+          同じ列（縦方向）に同じ記号は <span class="hl">1回だけ</span>。<br>
+          例：「緊急性」の列に ◎ が2つあったらNG。<br>
+          <span style="color:#64748b;font-size:11px;">→ 強制的に差をつけることで本当の優先順位が出る</span>
+        </div>
+      </div>
+      <!-- 右：記入例 -->
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">記入例</div>
+          <table class="tbl" style="font-size:11px;">
             <tr>
-              <th style="text-align:left;min-width:130px">問題点</th>
-              <th>緊急性</th><th>重要性</th><th>影響度</th><th>話題性</th><th>合計</th>
+              <th style="text-align:left;min-width:110px;">問題点</th>
+              <th>緊急</th><th>重要</th><th>影響</th><th>話題</th>
+              <th style="background:#fef9c3;">合計</th>
             </tr>
-            <tr style="background:#fffbeb">
-              <td style="text-align:left;font-size:11px;font-weight:700">苦情件数が増加</td>
-              <td><span class="sym sym-ni-maru">◎</span></td>
-              <td><span class="sym sym-maru">○</span></td>
-              <td><span class="sym sym-ni-maru">◎</span></td>
-              <td><span class="sym sym-maru">○</span></td>
-              <td style="font-weight:800;color:#d97706">28</td>
-            </tr>
-            <tr>
-              <td style="text-align:left;font-size:11px">お客様の声が減少</td>
-              <td><span class="sym sym-batsu">×</span></td>
-              <td><span class="sym sym-sankaku">△</span></td>
-              <td><span class="sym sym-maru">○</span></td>
-              <td><span class="sym sym-batsu">×</span></td>
-              <td style="color:#64748b">12</td>
+            <tr style="background:#fef9c3;">
+              <td style="text-align:left;font-size:10px;">お客様の苦情が増えている</td>
+              <td><span class="sym sym-maru2" style="width:22px;height:22px;font-size:12px;">◎</span></td>
+              <td><span class="sym sym-maru" style="width:22px;height:22px;font-size:12px;">○</span></td>
+              <td><span class="sym sym-maru2" style="width:22px;height:22px;font-size:12px;">◎</span></td>
+              <td><span class="sym sym-maru" style="width:22px;height:22px;font-size:12px;">○</span></td>
+              <td style="font-weight:900;color:#1d4ed8;">28</td>
             </tr>
             <tr>
-              <td style="text-align:left;font-size:11px">英語案内が不足</td>
-              <td><span class="sym sym-sankaku">△</span></td>
-              <td><span class="sym sym-batsu">×</span></td>
-              <td><span class="sym sym-sankaku">△</span></td>
-              <td><span class="sym sym-sankaku">△</span></td>
-              <td style="color:#64748b">10</td>
+              <td style="text-align:left;font-size:10px;">お礼の言葉が減少傾向</td>
+              <td><span class="sym sym-batu" style="width:22px;height:22px;font-size:12px;">×</span></td>
+              <td><span class="sym sym-san" style="width:22px;height:22px;font-size:12px;">△</span></td>
+              <td><span class="sym sym-maru" style="width:22px;height:22px;font-size:12px;">○</span></td>
+              <td><span class="sym sym-batu" style="width:22px;height:22px;font-size:12px;">×</span></td>
+              <td>14</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;font-size:10px;">英語案内が少ない</td>
+              <td><span class="sym sym-san" style="width:22px;height:22px;font-size:12px;">△</span></td>
+              <td><span class="sym sym-batu" style="width:22px;height:22px;font-size:12px;">×</span></td>
+              <td><span class="sym sym-san" style="width:22px;height:22px;font-size:12px;">△</span></td>
+              <td><span class="sym sym-san" style="width:22px;height:22px;font-size:12px;">△</span></td>
+              <td>10</td>
+            </tr>
+          </table>
+          <div style="font-size:10px;color:#64748b;margin-top:6px;">🏆 黄色行（最高得点）がテーマ候補</div>
+        </div>
+        <div class="good-box" style="font-size:12px;">
+          <strong>✅ ポイント：</strong><br>
+          「問題点」は <span class="hl">「やりたいこと」ではなく「困っていること」</span> を書く。<br>
+          <span style="color:#64748b;font-size:11px;">また必ず数字（データ）で現状を確認してから記入する。</span>
+        </div>
+      </div>
+    </div>
+    <div class="practice-box">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title">アプリでやってみよう — STEP 01</div>
+        <div class="practice-text">職場の「困っていること」を3〜5件書き出し、◎○△×で4軸を採点する。合計得点が最も高い問題をテーマ候補として確認しよう。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 5: 手法② ギャップ分析
+     =================================================== -->
+<div class="slide" style="background:#f8fafc;" data-title="手法② ギャップ分析 — STEP 02" data-time="17">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag">STEP 02 / PLAN &nbsp;|&nbsp; 手法②</div>
+      <div class="slide-h1"><em style="color:#2563eb">ギャップ分析</em></div>
+      <div class="slide-sub">現状と理想の差を数字で見える化し、テーマを確定する</div>
+      <div class="accent-bar bg-plan"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">ギャップ分析の3ステップ</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div style="background:#2563eb;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</div>
+              <div style="font-size:12px;"><strong>現状を数字で入力</strong><div style="color:#64748b;font-size:11px;">何が、どのくらい起きているか</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div style="background:#2563eb;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</div>
+              <div style="font-size:12px;"><strong>理想（あるべき姿）を入力</strong><div style="color:#64748b;font-size:11px;">どうなっていれば良いのか</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div style="background:#2563eb;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</div>
+              <div style="font-size:12px;"><strong>ギャップ = テーマへ</strong><div style="color:#64748b;font-size:11px;">差を埋めることが活動のテーマになる</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">ギャップのイメージ</div>
+          <div class="gap-vis">
+            <div class="gap-bar">
+              <div class="gap-bar-body" style="height:90px;background:#3b82f6;"></div>
+              <div class="gap-bar-label">理想</div>
+              <div class="gap-bar-val" style="color:#2563eb;">0件</div>
+            </div>
+            <div class="gap-arrow-area">
+              <div class="gap-label-red">ギャップ<br>30件</div>
+              <div class="gap-arrow">⟺</div>
+            </div>
+            <div class="gap-bar">
+              <div class="gap-bar-body" style="height:160px;background:#ef4444;"></div>
+              <div class="gap-bar-label">現状</div>
+              <div class="gap-bar-val" style="color:#dc2626;">30件</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">記入例</div>
+          <table class="tbl" style="font-size:12px;">
+            <tr><td style="text-align:left;background:#f8fafc;font-weight:700;width:90px;">現状</td><td style="text-align:left;">苦情件数 113件（5年前比 +30件）</td></tr>
+            <tr><td style="text-align:left;background:#f8fafc;font-weight:700;">理想</td><td style="text-align:left;">苦情件数 83件（5年前並み）</td></tr>
+            <tr><td style="text-align:left;background:#fef9c3;font-weight:700;">ギャップ</td><td style="text-align:left;font-weight:700;color:#dc2626;">30件の削減が必要</td></tr>
+          </table>
+          <div style="margin-top:8px;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:8px 10px;font-size:12px;">
+            <strong style="color:#065f46;">→ 自動生成テーマ：</strong><br>
+            <span style="color:#065f46;">「苦情件数を83件まで削減する」</span>
+          </div>
+        </div>
+        <div class="warn-box" style="font-size:12px;">
+          <strong>⚠️ よくある間違い：</strong><br>
+          「改善したい」という気持ちだけでテーマを決めるのはNG。<br>
+          必ず <span class="hl">現状の数字</span> と <span class="hl">理想の数字</span> を両方入力し、差分を明確にする。
+        </div>
+        <div class="point-box" style="font-size:12px;">
+          <strong>💡 ポイント：</strong><br>
+          現状・理想の数字は、後の <span class="hl-blue">STEP 07（効果確認）</span> でも使う。<br>
+          比較しやすい単位・条件で入力しておくと後が楽になる。
+        </div>
+      </div>
+    </div>
+    <div class="practice-box">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title">アプリでやってみよう — STEP 02</div>
+        <div class="practice-text">STEP 01で選んだテーマの現状値と理想値を数字で入力する。アプリがギャップを自動計算し、テーマ文も自動生成してくれる。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 6: 手法③ KPIツリー（概念・構造）
+     =================================================== -->
+<div class="slide s-purple dark-slide" data-title="手法③ KPIツリー（概念と構造）— STEP 03" data-time="24">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">STEP 03 / PLAN &nbsp;|&nbsp; 手法③</div>
+      <div class="slide-h1">KPIツリー <em style="color:#a78bfa">— なぜデータを絞り込むのか</em></div>
+      <div class="slide-sub">「どこ」に問題があるかを見つけるための3層構造</div>
+      <div class="accent-bar" style="background:#a78bfa;"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#c4b5fd;font-size:12px;font-weight:700;margin-bottom:8px;">KPIツリーが必要な理由</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.8);line-height:1.7;">
+            テーマが決まっただけでは、<span style="color:#fbbf24;">「何に対策を打てばいいか」</span>がまだわからない。<br><br>
+            KPIツリーで問題を層別に分解することで、<span style="color:#6ee7b7;">「どこで・どの部分が特に問題か」</span>を特定できる。<br><br>
+            <strong style="color:#fff;">絞り込まずに対策を打つ = 効果が分散してしまう</strong>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#c4b5fd;font-size:12px;font-weight:700;margin-bottom:8px;">3層の意味</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#7c3aed;color:#fff;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;flex-shrink:0;">L1</div>
+              <div style="color:rgba(255,255,255,0.85);">大分類 — 問題をざっくり分ける（例：路線別、時間帯別）</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#5b21b6;color:#fff;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;flex-shrink:0;">L2</div>
+              <div style="color:rgba(255,255,255,0.85);">中分類 — L1をさらに細かく分ける（例：駅別、乗務員別）</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#3b0764;color:#c4b5fd;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;flex-shrink:0;">L3</div>
+              <div style="color:rgba(255,255,255,0.85);">最小単位 — 実際にデータを集める最小粒度</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ツリー図 -->
+      <div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#c4b5fd;font-size:12px;font-weight:700;margin-bottom:10px;">構造イメージ（苦情件数の例）</div>
+          <div style="text-align:center;">
+            <div class="tree-root" style="margin-bottom:8px;">苦情件数 113件</div>
+            <div style="color:#a78bfa;font-size:12px;margin-bottom:6px;">▼ L1（路線別に分ける）</div>
+            <div class="grid2" style="gap:6px;margin-bottom:8px;">
+              <div class="tree-l1">A線<br><span style="font-size:13px;font-weight:900;color:#7c3aed;">78件</span></div>
+              <div class="tree-l1">B線<br><span style="font-size:13px;">35件</span></div>
+            </div>
+            <div style="color:#a78bfa;font-size:12px;margin-bottom:6px;">▼ L2（A線を時間帯別に）</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px;">
+              <div class="tree-l2" style="border-color:#7c3aed;background:#4c1d95;color:#e9d5ff;">朝<br><span style="font-weight:900;font-size:13px;">52件</span></div>
+              <div class="tree-l2">昼<br><span>16件</span></div>
+              <div class="tree-l2">夜<br><span>10件</span></div>
+            </div>
+            <div style="color:#a78bfa;font-size:12px;margin-bottom:6px;">▼ L3（朝を乗務員別に）</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+              <div class="tree-l3" style="border-color:#7c3aed;background:#2e1065;color:#c4b5fd;">C乗務員<br><span style="font-weight:900;">28件</span></div>
+              <div class="tree-l3">D乗務員<br><span>14件</span></div>
+              <div class="tree-l3">他<br><span>10件</span></div>
+            </div>
+            <div style="margin-top:8px;background:rgba(124,58,237,0.3);border:1px solid #7c3aed;border-radius:6px;padding:6px 10px;font-size:11px;color:#e9d5ff;">
+              🎯 <strong>絞り込み完了：</strong>「A線・朝・C乗務員の28件」が最優先課題
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 7: 手法③ KPIツリー（作り方）
+     =================================================== -->
+<div class="slide s-purple dark-slide" data-title="手法③ KPIツリーの作り方（5ステップ）" data-time="30">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">STEP 03 / PLAN &nbsp;|&nbsp; 手法③</div>
+      <div class="slide-h1">KPIツリーの <em style="color:#a78bfa">作り方</em></div>
+      <div class="slide-sub">5つのステップで「問題の場所」を特定する</div>
+      <div class="accent-bar" style="background:#a78bfa;"></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:10px;border:1px solid rgba(167,139,250,0.4);text-align:center;">
+          <div style="background:#7c3aed;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin:0 auto 6px;">1</div>
+          <div style="color:#c4b5fd;font-size:10px;font-weight:700;margin-bottom:4px;">L1を設定</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px;line-height:1.5;">テーマのデータを分類できる軸を決める<br><span style="color:#a78bfa;">例：路線別・時間帯別</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:10px;border:1px solid rgba(167,139,250,0.4);text-align:center;">
+          <div style="background:#7c3aed;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin:0 auto 6px;">2</div>
+          <div style="color:#c4b5fd;font-size:10px;font-weight:700;margin-bottom:4px;">L2を設定</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px;line-height:1.5;">L1の中をさらに細かく分類できる軸を決める<br><span style="color:#a78bfa;">例：駅別・乗務員別</span></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:10px;border:1px solid rgba(167,139,250,0.4);text-align:center;">
+          <div style="background:#7c3aed;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin:0 auto 6px;">3</div>
+          <div style="color:#c4b5fd;font-size:10px;font-weight:700;margin-bottom:4px;">L3を設定</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px;line-height:1.5;">実際にデータが取れる最小単位を決める</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:8px;padding:10px;border:1px solid rgba(167,139,250,0.4);text-align:center;">
+          <div style="background:#7c3aed;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin:0 auto 6px;">4</div>
+          <div style="color:#c4b5fd;font-size:10px;font-weight:700;margin-bottom:4px;">データ収集</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px;line-height:1.5;">各L3の実際の数値を調べて入力する</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.35);border-radius:8px;padding:10px;border:2px solid #a78bfa;text-align:center;">
+          <div style="background:#7c3aed;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin:0 auto 6px;">5</div>
+          <div style="color:#4c1d95;font-size:10px;font-weight:700;margin-bottom:4px;">問題箇所を特定</div>
+          <div style="color:#3b0764;font-size:11px;line-height:1.5;">最もデータが大きい（悪い）L3に★をつけて絞り込む</div>
+        </div>
+      </div>
+      <div class="grid2" style="flex:1;">
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#c4b5fd;font-size:12px;font-weight:700;margin-bottom:8px;">L1を決めるコツ</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.8);line-height:1.7;">
+            「このデータは何かによって差があるだろうか？」という問いで考える。<br><br>
+            <strong style="color:#fff;">よくあるL1の切り口：</strong><br>
+            <span style="color:#a78bfa;">路線・時間帯・曜日・年齢層・乗務員種別…</span>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#c4b5fd;font-size:12px;font-weight:700;margin-bottom:8px;">よくある失敗</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:rgba(255,255,255,0.8);">
+            <div style="display:flex;gap:6px;"><span style="color:#f87171;">✗</span><span>L1を決めないでいきなりL2を入力する</span></div>
+            <div style="display:flex;gap:6px;"><span style="color:#f87171;">✗</span><span>データを集めずに「なんとなく」で★をつける</span></div>
+            <div style="display:flex;gap:6px;"><span style="color:#f87171;">✗</span><span>分類の軸がL1〜L3で整合していない</span></div>
+            <div style="display:flex;gap:6px;"><span style="color:#6ee7b7;">✓</span><span>必ず <span class="hl" style="background:#4c1d95;color:#e9d5ff;">実際のデータ</span> で★の根拠を示す</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="practice-box" style="background:rgba(254,252,232,0.15);border-color:#fbbf24;">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title" style="color:#fde68a;">アプリでやってみよう — STEP 03</div>
+        <div class="practice-text" style="color:rgba(255,255,255,0.85);">STEP 03を開き、L1・L2・L3を設定する。テーマのデータをどの軸で分解できるか、チームで議論しながら設定しよう。データを集めて★をつけるところまでが目標。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 8: 手法④ ロジックツリー × なぜなぜ × 4M1E
+     =================================================== -->
+<div class="slide" style="background:#f8fafc;" data-title="手法④ ロジックツリー × なぜなぜ分析 × 4M1E — STEP 04" data-time="37">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag">STEP 04 / PLAN &nbsp;|&nbsp; 手法④</div>
+      <div class="slide-h1"><em style="color:#9d174d">ロジックツリー × なぜなぜ × 4M1E</em></div>
+      <div class="slide-sub">「なぜ問題が起きているか」を3層で深掘りし、真因を特定する</div>
+      <div class="accent-bar" style="background:#be185d;"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">4M1E — 5つの視点</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="m4e-badge m4e-人" style="min-width:44px;text-align:center;">人</span>
+              <span style="font-size:12px;">教育・スキル・習熟度・人手不足</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="m4e-badge m4e-機械" style="min-width:44px;text-align:center;">機械</span>
+              <span style="font-size:12px;">設備の老朽化・精度・故障・ツール</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="m4e-badge m4e-材料" style="min-width:44px;text-align:center;">材料</span>
+              <span style="font-size:12px;">素材・情報・マニュアル・書類</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="m4e-badge m4e-方法" style="min-width:44px;text-align:center;">方法</span>
+              <span style="font-size:12px;">手順・ルール・プロセス・基準</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="m4e-badge m4e-環境" style="min-width:44px;text-align:center;">環境</span>
+              <span style="font-size:12px;">職場環境・組織・制度・外部要因</span>
+            </div>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:#64748b;">なぜなぜを5カテゴリで整理することで漏れなく原因を探せる</div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">なぜなぜ分析の3階層</div>
+          <div style="font-size:12px;color:#475569;line-height:1.6;">
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;">
+              <div style="background:#fca5a5;color:#7f1d1d;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;">原因①</div>
+              <div>問題の直接的な原因（表面）</div>
+              <div style="text-align:center;color:#94a3b8;font-size:16px;padding:0 0 0 4px;">↓</div>
+              <div style="font-size:11px;color:#94a3b8;">「なぜ？」</div>
+              <div style="background:#fdba74;color:#7c2d12;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;">原因②</div>
+              <div>原因①が起きる理由</div>
+              <div style="text-align:center;color:#94a3b8;font-size:16px;padding:0 0 0 4px;">↓</div>
+              <div style="font-size:11px;color:#94a3b8;">「なぜ？」</div>
+              <div style="background:#7c3aed;color:#fff;border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;">真因★</div>
+              <div style="font-weight:700;color:#4c1d95;">根本原因 → ここに対策を打つ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">なぜなぜチェーンの例（「方法」カテゴリ）</div>
+          <div class="why-chain">
+            <div class="why-node why-lv1">
+              <div style="font-size:10px;font-weight:700;color:#991b1b;margin-bottom:3px;">原因① (方法)</div>
+              異常時の放送手順がバラバラになっている
+            </div>
+            <div class="why-arrow">↓ なぜ？</div>
+            <div class="why-node why-lv2">
+              <div style="font-size:10px;font-weight:700;color:#9a3412;margin-bottom:3px;">原因②</div>
+              標準手順書が存在しない、または周知されていない
+            </div>
+            <div class="why-arrow" style="padding-left:40px;">↓ なぜ？</div>
+            <div class="why-node why-shinichi">
+              <div style="font-size:10px;font-weight:700;color:#c4b5fd;margin-bottom:3px;">★ 真因（ここに対策を打つ）</div>
+              手順書の整備が誰の担当かが決まっていなかった
+            </div>
+          </div>
+        </div>
+        <div class="good-box" style="font-size:12px;">
+          <strong>✅ 真因の見分け方：</strong><br>
+          「もし真因を解決したら、この問題は再発しないか？」と問い直す。<br>
+          YESなら真因。Noなら「なぜ？」をもう一段掘り下げる。
+        </div>
+        <div class="warn-box" style="font-size:12px;">
+          <strong>⚠️ やりがちな失敗：</strong><br>
+          なぜなぜを「人のせい」で終わらせるのはNG。<br>
+          <span style="color:#64748b;">"C乗務員のやる気がなかったから" → 仕組みの問題に深掘りする</span>
+        </div>
+      </div>
+    </div>
+    <div class="practice-box">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title">アプリでやってみよう — STEP 04</div>
+        <div class="practice-text">5つのカテゴリ（人・機械・材料・方法・環境）それぞれに「なぜ？」を3段階で入力する。最も根本的な原因に★をつけよう。★がついた項目は自動で「真因候補」にまとめられる。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================
+     SLIDE 9: 手法⑤ 目標設定
+     =================================================== -->
+<div class="slide" style="background:#f8fafc;" data-title="手法⑤ 目標設定（何を・いつまでに・どうする）— STEP 05" data-time="44">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag">STEP 05 / PLAN &nbsp;|&nbsp; 手法⑤</div>
+      <div class="slide-h1"><em style="color:#2563eb">目標設定</em> — 何を・いつまでに・どうする</div>
+      <div class="slide-sub">真因に対して、誰でも理解できる目標を数字で決める</div>
+      <div class="accent-bar bg-plan"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">目標設定の3要素</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;background:#eff6ff;border-radius:7px;padding:10px;">
+              <div style="background:#2563eb;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;flex-shrink:0;">何を</div>
+              <div style="font-size:12px;color:#1e40af;">改善の対象を具体的に書く<br><span style="color:#64748b;">例：異常時放送で順序がバラバラな乗務員○名を</span></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;background:#eff6ff;border-radius:7px;padding:10px;">
+              <div style="background:#2563eb;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;flex-shrink:0;">いつまでに</div>
+              <div style="font-size:12px;color:#1e40af;">期限を月・日まで明確に<br><span style="color:#64748b;">例：12月末までに</span></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;background:#eff6ff;border-radius:7px;padding:10px;">
+              <div style="background:#2563eb;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;flex-shrink:0;">どうする</div>
+              <div style="font-size:12px;color:#1e40af;">ゴールを数字で示す<br><span style="color:#64748b;">例：0名にする</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="point-box" style="font-size:12px;">
+          <strong>💡 なぜ数字が必要か：</strong><br>
+          STEP 07（効果確認）で「達成できたか」を判定するため。<br>
+          数字がないと「なんとなく良くなった」で終わってしまう。
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card-sm">
+          <div class="card-title">悪い例 vs 良い例</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="background:#fee2e2;border:1.5px solid #fca5a5;border-radius:7px;padding:10px;font-size:12px;">
+              <div style="font-weight:700;color:#dc2626;margin-bottom:4px;">✗ 悪い目標</div>
+              <div style="color:#7f1d1d;">「放送をきちんとできるようにする」<br>「苦情を減らす」</div>
+              <div style="color:#991b1b;font-size:11px;margin-top:4px;">→ 何が「きちんと」か不明。達成確認できない。</div>
+            </div>
+            <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:7px;padding:10px;font-size:12px;">
+              <div style="font-weight:700;color:#166534;margin-bottom:4px;">✓ 良い目標</div>
+              <div style="color:#14532d;">「異常時放送で伝える順序がバラバラな乗務員30名を、12月末までに0名にする」</div>
+              <div style="color:#15803d;font-size:11px;margin-top:4px;">→ 数字が明確。12月末に0名になったか確認できる。</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-sm">
+          <div class="card-title">目標設定のチェックリスト</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:12px;color:#475569;">
+            <div>☐ 「何が問題か（対象）」が具体的か</div>
+            <div>☐ 「どの程度まで（ゴール）」が数字か</div>
+            <div>☐ 「いつまでに（期限）」が月日まであるか</div>
+            <div>☐ STEP 02のギャップと整合しているか</div>
+            <div>☐ STEP 07で同じ指標で測れるか</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="practice-box">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title">アプリでやってみよう — STEP 05</div>
+        <div class="practice-text">STEP 04で★をつけた真因をもとに、「何を・いつまでに・どうする」の3欄を入力する。アプリが自動で目標文章をまとめてくれる。数字を忘れずに！</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 10: 手法⑥ HOWツリー（4M1E対策案）
+     =================================================== -->
+<div class="slide s-green dark-slide" data-title="手法⑥ HOWツリー（4M1E対策案の列挙）— STEP 06a" data-time="51">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">STEP 06a / DO &nbsp;|&nbsp; 手法⑥</div>
+      <div class="slide-h1">HOWツリー <em style="color:#6ee7b7">（4M1E 対策案の列挙）</em></div>
+      <div class="slide-sub">真因に対する具体的な対策を4M1Eの5視点から漏れなく洗い出す</div>
+      <div class="accent-bar bg-do"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">HOWツリーとは</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.7;">
+            STEP 04のWHYツリー（なぜ？）と同じ4M1E構造で、今度は <span style="color:#fbbf24;">「どうすれば解決できるか（HOW）」</span> を整理するツール。<br><br>
+            同じ視点で考えることで、WHYとHOWの対応関係が明確になる。
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">3階層の対策ツリー</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:rgba(255,255,255,0.85);">
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#059669;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">対策①</div>
+              <div>大きな方向性の対策<br><span style="color:#6ee7b7;font-size:11px;">例：「緊急時放送の標準手順を作成する」</span></div>
+            </div>
+            <div style="text-align:left;padding-left:10px;color:#6ee7b7;font-size:12px;">↳ 詳細① より具体的な手段</div>
+            <div style="display:flex;gap:8px;align-items:center;padding-left:10px;">
+              <div style="background:#047857;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">詳細①</div>
+              <div>対策①を実現する具体的方法<br><span style="color:#6ee7b7;font-size:11px;">例：「月1回の定期訓練を実施する」</span></div>
+            </div>
+            <div style="text-align:left;padding-left:20px;color:#6ee7b7;font-size:12px;">↳ 詳細② さらに細かい内容</div>
+            <div style="display:flex;gap:8px;align-items:center;padding-left:20px;">
+              <div style="background:#065f46;color:#d1fae5;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">詳細②</div>
+              <div>最小単位の実施事項<br><span style="color:#6ee7b7;font-size:11px;">例：「外部講師を招いてロールプレイを行う」</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">5カテゴリで洗い出す</div>
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;">
+            <div style="display:flex;gap:6px;align-items:center;"><span class="m4e-badge m4e-人" style="min-width:40px;text-align:center;">人</span><span style="color:rgba(255,255,255,0.8);">教育・訓練・OJT・人員配置</span></div>
+            <div style="display:flex;gap:6px;align-items:center;"><span class="m4e-badge m4e-機械" style="min-width:40px;text-align:center;">機械</span><span style="color:rgba(255,255,255,0.8);">設備改善・ツール導入・システム</span></div>
+            <div style="display:flex;gap:6px;align-items:center;"><span class="m4e-badge m4e-材料" style="min-width:40px;text-align:center;">材料</span><span style="color:rgba(255,255,255,0.8);">マニュアル整備・資料作成・情報共有</span></div>
+            <div style="display:flex;gap:6px;align-items:center;"><span class="m4e-badge m4e-方法" style="min-width:40px;text-align:center;">方法</span><span style="color:rgba(255,255,255,0.8);">手順改定・基準設定・ルール化</span></div>
+            <div style="display:flex;gap:6px;align-items:center;"><span class="m4e-badge m4e-環境" style="min-width:40px;text-align:center;">環境</span><span style="color:rgba(255,255,255,0.8);">職場環境改善・組織体制・制度変更</span></div>
+          </div>
+        </div>
+        <div style="background:rgba(254,252,232,0.15);border:1px solid rgba(251,191,36,0.5);border-radius:8px;padding:12px;font-size:12px;color:rgba(255,255,255,0.85);">
+          <strong style="color:#fde68a;">💡 ★で主要対策をマーク</strong><br>
+          各対策・詳細の右にある ★ ボタンを押すと「主要対策」として印がつく。<br>
+          ★をつけた対策は自動で <span style="color:#fde68a;">STEP 06b（評価マトリクス）</span> に連動する。
+        </div>
+      </div>
+    </div>
+    <div class="practice-box" style="background:rgba(254,252,232,0.15);border-color:#fbbf24;">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title" style="color:#fde68a;">アプリでやってみよう — STEP 06a</div>
+        <div class="practice-text" style="color:rgba(255,255,255,0.85);">真因に対して、5つのカテゴリそれぞれで対策を考える。思いつく限り書き出し、最も有力な対策に★をつけよう。★対策は自動でSTEP 06bに引き継がれる。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 11: 手法⑦ メリット・デメリット評価
+     =================================================== -->
+<div class="slide s-green dark-slide" data-title="手法⑦ メリット・デメリット評価マトリクス — STEP 06b" data-time="58">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">STEP 06b / DO &nbsp;|&nbsp; 手法⑦</div>
+      <div class="slide-h1"><em style="color:#6ee7b7">メリット・デメリット評価</em>マトリクス</div>
+      <div class="slide-sub">複数の対策案を客観的に比較し、採用する対策を決定する</div>
+      <div class="accent-bar bg-do"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">評価の4項目</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div style="background:#059669;color:#fff;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">効果</div>
+              <div style="color:rgba(255,255,255,0.85);">問題を根本的に解決できるか</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div style="background:#059669;color:#fff;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">実現</div>
+              <div style="color:rgba(255,255,255,0.85);">実際に実施できる可能性があるか</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div style="background:#059669;color:#fff;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">コスト</div>
+              <div style="color:rgba(255,255,255,0.85);">費用・時間・手間の面で現実的か</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;">
+              <div style="background:#059669;color:#fff;border-radius:5px;padding:2px 8px;font-size:10px;font-weight:700;flex-shrink:0;">定着</div>
+              <div style="color:rgba(255,255,255,0.85);">継続的に維持・定着できるか</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.15);font-size:11px;color:rgba(255,255,255,0.7);">
+            各項目を ◎(4点)・○(3点)・△(2点)・×(1点) で採点 → 合計スコアが高い対策を採用
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">メリット・デメリット欄の書き方</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.7;">
+            <span style="color:#6ee7b7;">メリット：</span>この対策で得られる良い効果<br>
+            <span style="color:#f87171;">デメリット：</span>実施する際の障壁・リスク<br>
+            <span style="color:#fbbf24;">解消策：</span>デメリットをどう乗り越えるか<br><br>
+            <span style="color:rgba(255,255,255,0.6);font-size:11px;">解消策まで書くことで、採用後に起こる問題への備えになる</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">評価マトリクス 記入例</div>
+          <table class="merit-tbl" style="font-size:11px;">
+            <tr style="background:rgba(255,255,255,0.1);">
+              <th style="text-align:left;color:rgba(255,255,255,0.7);">対策案</th>
+              <th style="color:rgba(255,255,255,0.7);">効果</th>
+              <th style="color:rgba(255,255,255,0.7);">実現</th>
+              <th style="color:rgba(255,255,255,0.7);">コスト</th>
+              <th style="color:rgba(255,255,255,0.7);">定着</th>
+              <th style="color:rgba(255,255,255,0.7);">計</th>
+            </tr>
+            <tr style="background:rgba(254,252,232,0.2);">
+              <td style="color:#fde68a;font-weight:700;">標準手順書の作成</td>
+              <td style="text-align:center;"><span class="sym sym-maru2" style="width:22px;height:22px;font-size:12px;">◎</span></td>
+              <td style="text-align:center;"><span class="sym sym-maru" style="width:22px;height:22px;font-size:12px;">○</span></td>
+              <td style="text-align:center;"><span class="sym sym-maru" style="width:22px;height:22px;font-size:12px;">○</span></td>
+              <td style="text-align:center;"><span class="sym sym-maru2" style="width:22px;height:22px;font-size:12px;">◎</span></td>
+              <td style="text-align:center;font-weight:900;color:#fde68a;">15</td>
+            </tr>
+            <tr>
+              <td style="color:rgba(255,255,255,0.8);">定期訓練の実施</td>
+              <td style="text-align:center;"><span class="sym sym-maru" style="width:22px;height:22px;font-size:12px;">○</span></td>
+              <td style="text-align:center;"><span class="sym sym-san" style="width:22px;height:22px;font-size:12px;">△</span></td>
+              <td style="text-align:center;"><span class="sym sym-san" style="width:22px;height:22px;font-size:12px;">△</span></td>
+              <td style="text-align:center;"><span class="sym sym-maru" style="width:22px;height:22px;font-size:12px;">○</span></td>
+              <td style="text-align:center;color:rgba(255,255,255,0.7);">11</td>
+            </tr>
+          </table>
+          <div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,0.6);">黄色行が最高得点 → 「採用」ボタンで決定</div>
+        </div>
+        <div style="background:rgba(254,252,232,0.15);border:1px solid rgba(251,191,36,0.5);border-radius:8px;padding:12px;font-size:12px;color:rgba(255,255,255,0.85);">
+          <strong style="color:#fde68a;">💡 ポイント：</strong><br>
+          スコアが最高でも、<span style="color:#fde68a;">デメリットが深刻な場合は採用しない</span>判断もある。<br>
+          スコアはあくまで参考材料。最終判断はチームで行う。
+        </div>
+      </div>
+    </div>
+    <div class="practice-box" style="background:rgba(254,252,232,0.15);border-color:#fbbf24;">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title" style="color:#fde68a;">アプリでやってみよう — STEP 06b</div>
+        <div class="practice-text" style="color:rgba(255,255,255,0.85);">STEP 06aで★をつけた対策が自動で並んでいる。各対策のメリット・デメリット・解消策を記入し、4項目を採点する。最も高スコアの対策を「採用」ボタンで確定しよう。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 12: 手法⑧ 実施計画
+     =================================================== -->
+<div class="slide s-green dark-slide" data-title="手法⑧ 実施計画（誰が・いつ・どうやる）— STEP 06c" data-time="64">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">STEP 06c / DO &nbsp;|&nbsp; 手法⑧</div>
+      <div class="slide-h1"><em style="color:#6ee7b7">実施計画</em> — 誰が・いつ・どうやる</div>
+      <div class="slide-sub">採用した対策をいつまでに誰がどう実施するかを明確にする</div>
+      <div class="accent-bar bg-do"></div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:12px;">
+      <div class="grid2" style="align-items:start;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">実施計画の5項目</div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:rgba(255,255,255,0.85);">
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#059669;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;width:60px;text-align:center;flex-shrink:0;">対策名</div>
+              <div>06bで採用した対策（自動入力される）</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#059669;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;width:60px;text-align:center;flex-shrink:0;">実施方法</div>
+              <div>具体的にどうやるかを文章で記入</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#059669;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;width:60px;text-align:center;flex-shrink:0;">担当者</div>
+              <div>実施責任者の名前</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#059669;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;width:60px;text-align:center;flex-shrink:0;">期間</div>
+              <div>開始日〜終了日を入力（カレンダーで選択）</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="background:#059669;color:#fff;border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;width:60px;text-align:center;flex-shrink:0;">引継ぎ</div>
+              <div>次の担当者への申し送り事項</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#6ee7b7;font-size:12px;font-weight:700;margin-bottom:8px;">記入例</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:11px;">
+            <div class="plan-row plan-hdr" style="color:rgba(255,255,255,0.5);font-size:9px;background:transparent;border-color:rgba(255,255,255,0.2);">
+              <div>対策名</div><div>担当者</div><div>期間</div><div>引継ぎ</div>
+            </div>
+            <div class="plan-row" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">
+              <div>標準手順書の作成</div>
+              <div>田中（係長）</div>
+              <div style="font-size:10px;">10/1〜10/31</div>
+              <div style="font-size:10px;">完成後にグループLINEで共有</div>
+            </div>
+            <div class="plan-row" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">
+              <div>全員への周知訓練</div>
+              <div>佐藤（主任）</div>
+              <div style="font-size:10px;">11/1〜11/30</div>
+              <div style="font-size:10px;">欠席者は個別フォロー</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(254,252,232,0.15);border:1px solid rgba(251,191,36,0.4);border-radius:8px;padding:12px;font-size:12px;color:rgba(255,255,255,0.85);">
+        <strong style="color:#fde68a;">💡 実施計画のポイント：</strong>
+        「誰かがやる」ではなく <span style="color:#fde68a;">「〇〇さんが」</span> と名前を書く。期間も「できるだけ早く」ではなく <span style="color:#fde68a;">「〇月〇日〜〇月〇日」</span> と明確に。<br>
+        計画は <span style="color:#6ee7b7;">ダッシュボードの「担当者一覧」</span> でまとめて確認できる。
+      </div>
+    </div>
+    <div class="practice-box" style="background:rgba(254,252,232,0.15);border-color:#fbbf24;">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title" style="color:#fde68a;">アプリでやってみよう — STEP 06c</div>
+        <div class="practice-text" style="color:rgba(255,255,255,0.85);">採用した対策ごとに、担当者・期間・実施方法を入力する。全ステップの担当者一覧はダッシュボードの「担当者一覧」ページで確認できる。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 13: 手法⑨ Before/After 効果確認
+     =================================================== -->
+<div class="slide s-amber dark-slide" data-title="手法⑨ Before/After 効果確認 — STEP 07" data-time="70">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">STEP 07 / CHECK &nbsp;|&nbsp; 手法⑨</div>
+      <div class="slide-h1">Before/After <em style="color:#fcd34d">効果確認</em></div>
+      <div class="slide-sub">対策の実施前後を同じ指標で比較し、目標達成を数字で示す</div>
+      <div class="accent-bar bg-chk"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#fcd34d;font-size:12px;font-weight:700;margin-bottom:8px;">3つの確認項目</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:rgba(255,255,255,0.85);">
+            <div style="border-left:3px solid #fcd34d;padding-left:8px;">
+              <div style="font-weight:700;">① 目標達成の確認</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.6);">STEP 05の目標とAfterデータを比較</div>
+            </div>
+            <div style="border-left:3px solid #fcd34d;padding-left:8px;">
+              <div style="font-weight:700;">② 波及効果</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.6);">有形（数字で測れる）＋ 無形（雰囲気・満足度など）</div>
+            </div>
+            <div style="border-left:3px solid #fcd34d;padding-left:8px;">
+              <div style="font-weight:700;">③ テーマデータとの比較</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.6);">STEP 02で設定した「ギャップ」が縮んだか確認</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#fcd34d;font-size:12px;font-weight:700;margin-bottom:8px;">有形・無形効果の書き分け</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.7;">
+            <div style="background:rgba(5,150,105,0.3);border-radius:5px;padding:6px 8px;margin-bottom:5px;">
+              <strong>有形効果（数字で示す）</strong><br>
+              <span style="font-size:11px;">苦情件数 -10件、作業時間 30時間削減、費用換算 ¥60,000節約</span>
+            </div>
+            <div style="background:rgba(37,99,235,0.3);border-radius:5px;padding:6px 8px;">
+              <strong>無形効果（言葉で示す）</strong><br>
+              <span style="font-size:11px;">乗務員のストレス軽減、職場の雰囲気向上、自信の増加</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="color:#fcd34d;font-size:12px;font-weight:700;margin-bottom:8px;">Before/After 記入例</div>
+          <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px;margin-bottom:8px;">
+            <div style="font-size:10px;color:#fcd34d;font-weight:700;margin-bottom:5px;">① 目標達成確認</div>
+            <div style="display:grid;grid-template-columns:1fr 20px 1fr;gap:5px;align-items:center;">
+              <div style="background:rgba(239,68,68,0.3);border:1px solid #fca5a5;border-radius:5px;padding:8px;font-size:11px;color:#fecaca;">
+                <div style="font-size:9px;margin-bottom:3px;opacity:0.7;">BEFORE（S05の目標）</div>
+                手順バラバラ 30名
+              </div>
+              <div style="text-align:center;color:#94a3b8;">→</div>
+              <div style="background:rgba(5,150,105,0.3);border:1px solid #6ee7b7;border-radius:5px;padding:8px;font-size:11px;color:#d1fae5;">
+                <div style="font-size:9px;margin-bottom:3px;opacity:0.7;">AFTER（実績）</div>
+                手順バラバラ <strong>0名</strong> 🎉
+              </div>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:8px;">
+            <div style="font-size:10px;color:#fcd34d;font-weight:700;margin-bottom:5px;">② 波及効果</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);">有形：作業時間年間30h削減（約¥60,000節約）<br>無形：乗務員のストレス軽減、職場満足度向上</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,0.2);font-size:12px;color:rgba(255,255,255,0.85);">
+          <strong style="color:#fcd34d;">⚠️ よくある失敗：</strong><br>
+          Before・Afterで <span style="color:#f87171;">異なる条件のデータ</span> を比べるのはNG。<br>
+          同じ時期・同じ対象・同じ測り方で比較すること。<br>
+          <span style="font-size:11px;color:rgba(255,255,255,0.6);">例：Beforeが「4月〜6月」ならAfterも同じ期間で比較</span>
+        </div>
+      </div>
+    </div>
+    <div class="practice-box" style="background:rgba(254,252,232,0.15);border-color:#fbbf24;">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title" style="color:#fde68a;">アプリでやってみよう — STEP 07</div>
+        <div class="practice-text" style="color:rgba(255,255,255,0.85);">対策実施後のデータを収集し、STEP 05の目標と比較する。目標を達成した場合は「✓達成」ボタンを押す。有形・無形の波及効果も忘れずに記入しよう。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 14: 手法⑩ 振り返り（5W1H標準化 + KPT）
+     =================================================== -->
+<div class="slide s-red dark-slide" data-title="手法⑩ 振り返り（5W1H標準化 ＋ KPT）— STEP 08" data-time="76">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">STEP 08 / ACT &nbsp;|&nbsp; 手法⑩</div>
+      <div class="slide-h1">振り返り — <em style="color:#fca5a5">5W1H標準化 ＋ KPT</em></div>
+      <div class="slide-sub">対策を風化させないための標準化と、次の活動への引き継ぎ</div>
+      <div class="accent-bar bg-act"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#fca5a5;font-size:12px;font-weight:700;margin-bottom:8px;">① 5W1H で対策を標準化する</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:8px;">メンバーが変わっても対策が続くよう業務に組み込む</div>
+          <table class="w5h1" style="font-size:11px;">
+            <tr>
+              <td style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15);">いつ</td>
+              <td style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">4月の定期訓練時に</td>
+            </tr>
+            <tr>
+              <td style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15);">どこで</td>
+              <td style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">乗務区で</td>
+            </tr>
+            <tr>
+              <td style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15);">誰が</td>
+              <td style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">担当管理者が</td>
+            </tr>
+            <tr>
+              <td style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15);">何を</td>
+              <td style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">緊急時ボイスメモを</td>
+            </tr>
+            <tr>
+              <td style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15);">どのように</td>
+              <td style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">全乗務員に使い方を訓練する</td>
+            </tr>
+            <tr>
+              <td style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15);">なぜ</td>
+              <td style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);">全員がボイスメモを活用できるように</td>
             </tr>
           </table>
         </div>
-        <div class="example-box">
-          <div class="ex-label">記入例のポイント</div>
-          <p>黄色の行が最高得点 → このテーマに取り組む。<br>データ欄：「5年前と比べて63件増加」のように数字を書く。</p>
-        </div>
-        <div class="try-box" style="margin-top:10px">
-          <div class="try-label">✋ アプリでやってみよう（5分）</div>
-          <p>STEP01を開いて、職場の問題点を3件以上入力し◎○△×を設定する。</p>
-        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 5: STEP 02 ===== -->
-<div class="slide step-slide" data-time="20" data-title="STEP 02｜ギャップ分析">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-plan">STEP 02 / PLAN</div>
-      <div class="slide-h1"><em class="c-plan">ギャップ分析</em></div>
-      <div class="slide-sub">理想の姿と現実の差（ギャップ）を数値で把握してテーマを決める</div>
-      <div class="accent-bar bg-plan"></div>
-    </div>
-    <div class="two-col">
-      <div class="point-list">
-        <div class="point-item">
-          <div class="point-icon">🎯</div>
-          <div class="point-text"><strong>理想を数字で書く</strong><span>「もっと良くしたい」ではなく「月50件以下にしたい」</span></div>
-        </div>
-        <div class="point-item">
-          <div class="point-icon">📉</div>
-          <div class="point-text"><strong>現状も数字で書く</strong><span>「現在は月113件」のように同じ単位で比較する</span></div>
-        </div>
-        <div class="point-item">
-          <div class="point-icon">✨</div>
-          <div class="point-text"><strong>テーマが自動生成される</strong><span>2つを入力するとアプリがテーマ文を自動作成。手動編集も可能。</span></div>
-        </div>
-      </div>
-      <div>
-        <div class="gap-visual" style="margin-bottom:12px">
-          <div class="gap-box ideal">
-            <div class="gap-label">理想の姿</div>
-            <div style="font-size:12px;color:#1d4ed8;margin-bottom:4px">苦情件数を月50件以下に</div>
-            <div class="gap-val" style="color:#1d4ed8">50件</div>
-          </div>
-          <div class="gap-arrow">↔</div>
-          <div class="gap-box current">
-            <div class="gap-label">現在の姿</div>
-            <div style="font-size:12px;color:#065f46;margin-bottom:4px">現在の苦情件数</div>
-            <div class="gap-val" style="color:#065f46">113件</div>
-          </div>
-        </div>
-        <div class="gap-result">
-          <div class="gr-label">✨ 自動生成されるテーマ</div>
-          <div class="gr-text">「苦情件数を<br>1か月あたり63件減少させる」</div>
-        </div>
-        <div class="try-box" style="margin-top:12px">
-          <div class="try-label">✋ アプリでやってみよう（4分）</div>
-          <p>STEP02で理想値・現状値を入力してテーマを確認する。テーマが気に入らなければ手動で書き換える。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 6: STEP 03 概要 ===== -->
-<div class="slide step-slide" data-time="26" data-title="STEP 03｜データ絞り込みとKPIツリー">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-kpi">STEP 03 / PLAN ★ このステップが核心</div>
-      <div class="slide-h1"><em class="c-kpi">データ絞り込み</em> ＆ KPIツリー</div>
-      <div class="slide-sub">問題を3段階の階層に分解して、真の要因候補を数値で特定する</div>
-      <div class="accent-bar" style="background:#7c3aed"></div>
-    </div>
-    <div class="two-col">
-      <div>
-        <div class="info-box" style="margin-bottom:12px;border-color:#c4b5fd">
-          <h3 style="color:#7c3aed">なぜ3階層に分けるのか？</h3>
-          <ul>
-            <li>「苦情が多い」だけでは対策が打てない</li>
-            <li>何について・どのカテゴリが・どの詳細が多いかを分解することで <strong>本当に対処すべき1点</strong>が見える</li>
-            <li>数値（件数）を入れると自動でグラフが作られ、最多項目が強調表示される</li>
-          </ul>
-        </div>
-        <div style="background:#faf5ff;border:1.5px solid #c4b5fd;border-radius:10px;padding:14px 16px">
-          <div style="font-size:12px;font-weight:700;color:#7c3aed;margin-bottom:8px">3階層の意味</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="background:#dbeafe;color:#1d4ed8;border-radius:6px;padding:8px 12px;font-size:12px;font-weight:700">L1 大分類：問題の種類（例：放送 / 車内対応 / 環境）</div>
-            <div style="background:#ede9fe;color:#5b21b6;border-radius:6px;padding:8px 12px;font-size:12px;font-weight:700;margin-left:12px">L2 中分類：L1の中にある項目（例：緊急時に聞こえない）</div>
-            <div style="background:#d1fae5;color:#065f46;border-radius:6px;padding:8px 12px;font-size:12px;font-weight:700;margin-left:24px">L3 詳細：L2をさらに分けたもの ← これが真因候補！</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="info-box" style="margin-bottom:12px">
-          <h3>アプリでの入力手順</h3>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="background:#1d4ed8;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">1</span>
-              <span style="font-size:12px">「＋ 大分類（L1）を追加」でカテゴリ名と件数を入力</span>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.2);">
+          <div style="color:#fca5a5;font-size:12px;font-weight:700;margin-bottom:8px;">② KPT で活動全体を振り返る</div>
+          <div class="kpt-grid">
+            <div class="kpt-card kpt-keep" style="background:rgba(5,150,105,0.25);border-color:#6ee7b7;">
+              <div class="kpt-lbl" style="color:#6ee7b7;">Keep</div>
+              <div class="kpt-sub" style="color:rgba(255,255,255,0.6);">うまくいったこと</div>
+              <div class="kpt-item" style="color:rgba(255,255,255,0.8);">役割分担し全員で活動できた</div>
             </div>
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="background:#5b21b6;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">2</span>
-              <span style="font-size:12px">各L1の中に「＋ 中分類（L2）を追加」で詳細化</span>
+            <div class="kpt-card kpt-prob" style="background:rgba(217,119,6,0.25);border-color:#fcd34d;">
+              <div class="kpt-lbl" style="color:#fcd34d;">Problem</div>
+              <div class="kpt-sub" style="color:rgba(255,255,255,0.6);">困ったこと</div>
+              <div class="kpt-item" style="color:rgba(255,255,255,0.8);">異動でメンバーが変わり遅れが出た</div>
             </div>
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="background:#065f46;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">3</span>
-              <span style="font-size:12px">L2の中に「＋ 詳細（L3）を追加」でさらに分解</span>
-            </div>
-            <div style="display:flex;gap:10px;align-items:flex-start">
-              <span style="background:#d97706;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">4</span>
-              <span style="font-size:12px">グラフを確認 → 最多のL3が<strong>真の要因候補</strong>として表示される</span>
+            <div class="kpt-card kpt-try" style="background:rgba(37,99,235,0.25);border-color:#93c5fd;">
+              <div class="kpt-lbl" style="color:#93c5fd;">Try</div>
+              <div class="kpt-sub" style="color:rgba(255,255,255,0.6);">次に挑戦すること</div>
+              <div class="kpt-item" style="color:rgba(255,255,255,0.8);">ヘルプ係を最初から決めておく</div>
             </div>
           </div>
         </div>
-        <div class="example-box">
-          <div class="ex-label">入力例（バス会社の苦情分析）</div>
-          <p>L1「放送」33件 → L2「緊急時に聞こえない」30件<br>→ L3「音量が小さい」2件 / 「マイクの向きが悪い」1件<br><strong>→ 真因候補：「音量が小さい」</strong></p>
+        <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,0.2);font-size:12px;color:rgba(255,255,255,0.85);">
+          <strong style="color:#fca5a5;">💡 水平展開（横展開）：</strong><br>
+          自分の職場で効果が出た対策は、<br>
+          <span style="color:#fca5a5;">他のグループ・他の路線にも共有</span> することで組織全体の底上げになる。<br>
+          <span style="font-size:11px;color:rgba(255,255,255,0.6);">→ 「管理の定着」欄に水平展開の計画も記入しよう</span>
+        </div>
+      </div>
+    </div>
+    <div class="practice-box" style="background:rgba(254,252,232,0.12);border-color:#fbbf24;">
+      <div class="practice-icon">✋</div>
+      <div>
+        <div class="practice-title" style="color:#fde68a;">アプリでやってみよう — STEP 08</div>
+        <div class="practice-text" style="color:rgba(255,255,255,0.85);">対策標準化の5W1Hを入力し、管理方法も決める。KPTでは活動全体を振り返り、次の活動への教訓をまとめよう。全STEPが完了したらダッシュボードで進捗を確認。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================
+     SLIDE 15: よくある失敗パターン
+     =================================================== -->
+<div class="slide s-slate dark-slide" data-title="よくある失敗パターン ＆ 対処法" data-time="82">
+  <div class="slide-inner">
+    <div class="slide-hdr">
+      <div class="slide-step-tag" style="color:rgba(255,255,255,0.5);">TIPS</div>
+      <div class="slide-h1">よくある <em style="color:#f87171">失敗パターン</em> ＆ 対処法</div>
+      <div class="slide-sub">先輩たちがはまった落とし穴を事前に知っておこう</div>
+      <div class="accent-bar" style="background:#ef4444;"></div>
+    </div>
+    <div class="grid2" style="flex:1;align-items:start;gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:#f87171;letter-spacing:0.5px;margin-bottom:8px;">STEP 01 の落とし穴</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">
+            <span style="color:#f87171;">✗</span> 「◎◎〇〇」など同じ記号を複数使う<br>
+            <span style="color:#6ee7b7;">✓</span> 各列に同じ記号は1つだけ。差をつけることに意味がある。<br><br>
+            <span style="color:#f87171;">✗</span> データなしで問題を書く<br>
+            <span style="color:#6ee7b7;">✓</span> 必ず「5年前比+30件」など数字を確認してから書く。
+          </div>
+        </div>
+        <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:#f87171;letter-spacing:0.5px;margin-bottom:8px;">STEP 03（KPIツリー）の落とし穴</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">
+            <span style="color:#f87171;">✗</span> データなしで「なんとなく」★をつける<br>
+            <span style="color:#6ee7b7;">✓</span> 実際に数値を調べてから★をつける。根拠が重要。<br><br>
+            <span style="color:#f87171;">✗</span> L1〜L3の分類軸がバラバラになる<br>
+            <span style="color:#6ee7b7;">✓</span> L1で「路線別」なら、L2はL1の中身を分ける軸にする。
+          </div>
+        </div>
+        <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:#f87171;letter-spacing:0.5px;margin-bottom:8px;">STEP 04（原因追及）の落とし穴</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">
+            <span style="color:#f87171;">✗</span> なぜなぜが「人のせい」で終わる<br>
+            <span style="color:#6ee7b7;">✓</span> 個人の問題でなく「仕組み・ルール・環境」の問題に落とし込む。<br><br>
+            <span style="color:#f87171;">✗</span> なぜなぜを1〜2段階で止める<br>
+            <span style="color:#6ee7b7;">✓</span> 3段階まで掘り下げて真因を特定する。
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:#f87171;letter-spacing:0.5px;margin-bottom:8px;">STEP 05（目標設定）の落とし穴</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">
+            <span style="color:#f87171;">✗</span> 「改善する」「頑張る」などの曖昧な表現<br>
+            <span style="color:#6ee7b7;">✓</span> 必ず数字で書く。「0名にする」「30件削減する」。<br><br>
+            <span style="color:#f87171;">✗</span> STEP 07で使えない指標で目標を書く<br>
+            <span style="color:#6ee7b7;">✓</span> 後で測定できる指標を選ぶ。
+          </div>
+        </div>
+        <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:#f87171;letter-spacing:0.5px;margin-bottom:8px;">STEP 06b（評価）の落とし穴</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">
+            <span style="color:#f87171;">✗</span> スコアが高い対策を機械的に採用する<br>
+            <span style="color:#6ee7b7;">✓</span> デメリットが深刻なら、スコアが低くても現実的な対策を選ぶ判断をする。<br><br>
+            <span style="color:#f87171;">✗</span> メリットだけ書いてデメリットを書かない<br>
+            <span style="color:#6ee7b7;">✓</span> デメリットと解消策まで書いて初めて計画が完成する。
+          </div>
+        </div>
+        <div style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:14px;">
+          <div style="font-size:11px;font-weight:700;color:#f87171;letter-spacing:0.5px;margin-bottom:8px;">STEP 08（振り返り）の落とし穴</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.6;">
+            <span style="color:#f87171;">✗</span> KPTを「うまくいった・できなかった」で終わらせる<br>
+            <span style="color:#6ee7b7;">✓</span> Tryは次の活動で実際に試す具体的な内容を書く。<br><br>
+            <span style="color:#f87171;">✗</span> 標準化せずに活動終了する<br>
+            <span style="color:#6ee7b7;">✓</span> 5W1Hで「誰が・いつ」を決めないと対策は必ず風化する。
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 7: KPIツリー構造 ===== -->
-<div class="slide" style="background:#faf5ff" data-time="33" data-title="KPIツリーの構造（図解）">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-kpi">STEP 03 / KPIツリー詳細</div>
-      <div class="slide-h1">KPIツリーの<em class="c-kpi">構造</em>を理解する</div>
-      <div class="slide-sub">最終目標（KGI）を数式で分解して行動レベルまで落とす思考法</div>
-      <div class="accent-bar" style="background:#7c3aed"></div>
+<!-- ===================================================
+     SLIDE 16: まとめ ＋ CTA
+     =================================================== -->
+<div class="slide" style="background:linear-gradient(150deg,#0f172a 0%,#1e3a8a 60%,#1d4ed8 100%);" data-title="まとめ — 10の手法を活かした問題解決" data-time="88">
+  <div class="slide-inner" style="justify-content:center;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="display:inline-block;background:rgba(255,255,255,0.15);color:#93c5fd;font-size:12px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:1px;margin-bottom:14px;">SUMMARY</div>
+      <div style="font-size:34px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:8px;">10の手法で<br><span style="color:#60a5fa;">問題解決のプロ</span>になろう</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.6);">ストーリーフォーマットは「手法の使い方」を覚えると一気に使いこなせるようになる</div>
     </div>
-
-    <!-- ツリー図 -->
-    <div style="display:flex;flex-direction:column;align-items:center;gap:0;flex:1;justify-content:center">
-      <div class="kpi-kgi kpi-node">年間売上 1億2,000万円<small>KGI | 最終目標</small></div>
-      <div class="vline"></div>
-      <div style="display:flex;gap:0;align-items:flex-start">
-        <div style="width:200px;height:2px;background:#94a3b8;align-self:flex-start;margin-top:0"></div>
-        <div class="vline" style="height:2px;margin:0"></div>
-        <div style="width:200px;height:2px;background:#94a3b8;align-self:flex-start"></div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;max-width:800px;margin-left:auto;margin-right:auto;">
+      <div style="background:rgba(37,99,235,0.3);border:1px solid rgba(96,165,250,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 01</div>
+        <div style="font-size:11px;font-weight:700;color:#93c5fd;">◎○△×<br>優先度評価</div>
       </div>
-      <div style="display:flex;gap:32px;align-items:flex-start">
-        <!-- 左ツリー -->
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0">
-          <div class="vline"></div>
-          <div class="kpi-kpi kpi-node">新規顧客売上 6,000万<small>KPI ＝ 商談数 × 成約率 × 単価</small></div>
-          <div class="vline"></div>
-          <div style="display:flex;gap:8px">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
-              <div class="vline" style="height:12px"></div>
-              <div class="kpi-sub">商談件数<small>サブKPI</small></div>
-              <div class="vline" style="height:10px"></div>
-              <div class="kpi-action">架電・訪問<br>DM施策</div>
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
-              <div class="vline" style="height:12px"></div>
-              <div class="kpi-sub">成約率<small>サブKPI</small></div>
-              <div class="vline" style="height:10px"></div>
-              <div class="kpi-action">提案書改善<br>ロープレ</div>
-            </div>
-          </div>
-        </div>
-        <!-- 右ツリー -->
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0">
-          <div class="vline"></div>
-          <div class="kpi-kpi kpi-node">既存顧客売上 6,000万<small>KPI ＝ 顧客数 × 継続率 × 単価</small></div>
-          <div class="vline"></div>
-          <div style="display:flex;gap:8px">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
-              <div class="vline" style="height:12px"></div>
-              <div class="kpi-sub">継続率<small>サブKPI</small></div>
-              <div class="vline" style="height:10px"></div>
-              <div class="kpi-action">定期訪問<br>満足度調査</div>
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:0">
-              <div class="vline" style="height:12px"></div>
-              <div class="kpi-sub">単価向上<small>サブKPI</small></div>
-              <div class="vline" style="height:10px"></div>
-              <div class="kpi-action">アップセル<br>提案強化</div>
-            </div>
-          </div>
-        </div>
+      <div style="background:rgba(37,99,235,0.3);border:1px solid rgba(96,165,250,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 02</div>
+        <div style="font-size:11px;font-weight:700;color:#93c5fd;">ギャップ<br>分析</div>
       </div>
-      <!-- 凡例 -->
-      <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;justify-content:center">
-        <span style="background:#1e3a8a;color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">KGI：最終ゴール</span>
-        <span style="background:#2563eb;color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">KPI：中間指標（数式で分解）</span>
-        <span style="background:#dbeafe;color:#1e40af;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">サブKPI：詳細指標</span>
-        <span style="background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">アクション：具体的行動</span>
+      <div style="background:rgba(124,58,237,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 03</div>
+        <div style="font-size:11px;font-weight:700;color:#c4b5fd;">KPIツリー</div>
+      </div>
+      <div style="background:rgba(157,23,77,0.3);border:1px solid rgba(249,168,212,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 04</div>
+        <div style="font-size:11px;font-weight:700;color:#f9a8d4;">ロジックツリー<br>×なぜなぜ×4M1E</div>
+      </div>
+      <div style="background:rgba(37,99,235,0.3);border:1px solid rgba(96,165,250,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 05</div>
+        <div style="font-size:11px;font-weight:700;color:#93c5fd;">目標設定</div>
+      </div>
+      <div style="background:rgba(5,150,105,0.3);border:1px solid rgba(110,231,183,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 06a</div>
+        <div style="font-size:11px;font-weight:700;color:#6ee7b7;">HOWツリー<br>（4M1E）</div>
+      </div>
+      <div style="background:rgba(5,150,105,0.3);border:1px solid rgba(110,231,183,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 06b</div>
+        <div style="font-size:11px;font-weight:700;color:#6ee7b7;">メリデメ<br>評価</div>
+      </div>
+      <div style="background:rgba(5,150,105,0.3);border:1px solid rgba(110,231,183,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 06c</div>
+        <div style="font-size:11px;font-weight:700;color:#6ee7b7;">実施計画</div>
+      </div>
+      <div style="background:rgba(217,119,6,0.3);border:1px solid rgba(252,211,77,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 07</div>
+        <div style="font-size:11px;font-weight:700;color:#fcd34d;">Before/After<br>効果確認</div>
+      </div>
+      <div style="background:rgba(220,38,38,0.3);border:1px solid rgba(252,165,165,0.4);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:3px;">STEP 08</div>
+        <div style="font-size:11px;font-weight:700;color:#fca5a5;">5W1H標準化<br>＋KPT</div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 8: KPIツリー 作り方 ===== -->
-<div class="slide" style="background:#f8fafc" data-time="38" data-title="KPIツリーの作り方（5ステップ）">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-kpi">STEP 03 / KPIツリー実践</div>
-      <div class="slide-h1">KPIツリーの<em class="c-kpi">作り方</em></div>
-      <div class="slide-sub">「なんとなく」を排除し、数値で動く指標をつくる5ステップ</div>
-      <div class="accent-bar" style="background:#7c3aed"></div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center">
-      <div style="display:flex;gap:14px;align-items:flex-start">
-        <div style="background:#7c3aed;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0">1</div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;flex:1">
-          <div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px">KGIを「何を・いつまでに・どれだけ」で数値定義する</div>
-          <div style="font-size:12px;color:#64748b">例：年度末までに苦情件数を月50件以下にする　<span style="color:#ef4444">✗「改善する」はNG</span></div>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start">
-        <div style="background:#7c3aed;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0">2</div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;flex:1">
-          <div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px">KGIを構成要素に分解する（数式で表す）</div>
-          <div style="font-size:12px;color:#64748b">苦情件数 ＝ 放送系 ＋ 対応系 ＋ 環境系　（MECEに・漏れなく・ダブりなく）</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start">
-        <div style="background:#7c3aed;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0">3</div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;flex:1">
-          <div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px">各要素をさらに分解して行動レベルにする</div>
-          <div style="font-size:12px;color:#64748b">放送系 → 緊急放送の内容がバラバラ → 音量が小さい / マイクの向きが悪い</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start">
-        <div style="background:#7c3aed;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0">4</div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;flex:1">
-          <div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px">各指標に件数・目標値を入力する</div>
-          <div style="font-size:12px;color:#64748b">件数を入れると自動グラフ化。最多項目が赤でハイライト → 真因候補に★をつける</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start">
-        <div style="background:#f59e0b;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0">5</div>
-        <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:10px;padding:12px 16px;flex:1">
-          <div style="font-size:14px;font-weight:700;color:#92400e;margin-bottom:4px">★ STEP04の「真因」に引き継ぐ</div>
-          <div style="font-size:12px;color:#78350f">グラフで最多の L3 項目が自動で STEP04 に表示される。それが「なぜ起きているか」をSTEP04で深掘りする。</div>
-        </div>
-      </div>
-    </div>
-    <div class="try-box" style="margin-top:10px">
-      <div class="try-label">✋ アプリでやってみよう（8分）</div>
-      <p>STEP03でL1を2〜3個追加し、それぞれL2・L3まで入力して自動グラフを確認する。★をつけて真因候補を決める。</p>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 9: STEP 04 ===== -->
-<div class="slide step-slide" data-time="46" data-title="STEP 04｜原因追及（なぜなぜ分析）">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-plan">STEP 04 / PLAN</div>
-      <div class="slide-h1"><em class="c-plan">原因追及</em>（なぜなぜ分析）</div>
-      <div class="slide-sub">「なぜ？」を3回繰り返して、根本原因（真因）を突き止める</div>
-      <div class="accent-bar bg-plan"></div>
-    </div>
-    <div class="two-col">
-      <div>
-        <div class="info-box" style="margin-bottom:12px">
-          <h3>4M1Eで分類して考える</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
-            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:11px"><strong>👤 人</strong><br>スキル・知識・習慣</div>
-            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:11px"><strong>⚙️ 機械</strong><br>設備・ツール・システム</div>
-            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:11px"><strong>📦 材料</strong><br>素材・情報・書類</div>
-            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:11px"><strong>📋 方法</strong><br>手順・ルール・プロセス</div>
-            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:11px;grid-column:1/-1"><strong>🏢 環境</strong><br>職場環境・組織・制度</div>
-          </div>
-        </div>
-        <div class="example-box">
-          <div class="ex-label">「真因」の条件</div>
-          <p>「なぜ？」が3回掘り下げられた最下層の原因。<br>再現性があり、対策すれば問題が解決されること。<br>アプリで★印をつけると自動で真因に設定される。</p>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:8px">なぜなぜ分析の例（方法カテゴリ）</div>
-        <div class="why-chain">
-          <div class="why-node why-n1"><div class="why-lbl">Why①</div>標準的な案内手順がない</div>
-          <div class="why-conn why-conn-n2"></div>
-          <div class="why-node why-n2"><div class="why-lbl">Why②</div>管理者が手順の重要性を認識していない</div>
-          <div class="why-conn why-conn-n3"></div>
-          <div class="why-node why-n3"><div class="why-lbl">Why③ ★真因</div>過去に事故やクレームが少なく問題意識がなかった</div>
-        </div>
-        <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:10px 14px;margin-top:10px">
-          <div style="font-size:11px;font-weight:700;color:#991b1b;margin-bottom:4px">📌 確定した真因</div>
-          <div style="font-size:13px;font-weight:700;color:#991b1b">緊急放送の標準手順がなく、<br>乗務員によって内容がバラバラ</div>
-        </div>
-        <div class="try-box" style="margin-top:10px">
-          <div class="try-label">✋ アプリでやってみよう（4分）</div>
-          <p>STEP04でWhy①〜③を入力し★をつけて真因を確定する。裏付けデータ入力ウィザードも活用する。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 10: STEP 05 + 06 ===== -->
-<div class="slide step-slide" data-time="52" data-title="STEP 05｜目標設定 ／ STEP 06｜対策">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-plan">STEP 05 / PLAN　→　STEP 06 / DO</div>
-      <div class="slide-h1"><em class="c-plan">目標設定</em> ＆ <em class="c-do">対策検討・実施</em></div>
-      <div class="slide-sub">数字で目標を立て、HOWツリーで対策を出してスコアで採用を決める</div>
-      <div class="accent-bar" style="background:linear-gradient(90deg,#2563eb 50%,#059669 50%)"></div>
-    </div>
-    <div class="two-col">
-      <!-- STEP05 -->
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-          <div style="background:#2563eb;color:#fff;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">STEP 05</div>
-          <span style="font-size:13px;font-weight:700">目標設定（5W1H の「何を・いつ・どうする」）</span>
-        </div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:10px">
-          <table style="width:100%;border-collapse:collapse;font-size:12px">
-            <tr><td style="padding:8px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;font-weight:700;width:80px">何を</td><td style="padding:8px;border-bottom:1px solid #e2e8f0">異常時放送の内容がバラバラな乗務員30名を</td></tr>
-            <tr><td style="padding:8px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;font-weight:700">いつまで</td><td style="padding:8px;border-bottom:1px solid #e2e8f0">12月末までに</td></tr>
-            <tr><td style="padding:8px;background:#f1f5f9;font-weight:700">どうする</td><td style="padding:8px">0名にする</td></tr>
-          </table>
-        </div>
-        <div class="example-box">
-          <div class="ex-label">ポイント</div>
-          <p>3つ入力するとアプリが目標文を自動で結合。数字が入っていないと STEP07 での確認ができなくなる。</p>
-        </div>
-      </div>
-      <!-- STEP06 -->
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-          <div style="background:#059669;color:#fff;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">STEP 06</div>
-          <span style="font-size:13px;font-weight:700">HOWツリー → 評価 → 実施計画</span>
-        </div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:10px">
-          <table class="score-matrix">
-            <tr><th style="text-align:left;min-width:100px">対策案</th><th>効果</th><th>実現性</th><th>コスト</th><th>定着</th><th>合計</th></tr>
-            <tr class="best">
-              <td style="text-align:left;font-size:11px;font-weight:700">標準手順書の作成</td>
-              <td><span class="score-chip sc-hi">◎</span></td>
-              <td><span class="score-chip sc-hi">◎</span></td>
-              <td><span class="score-chip sc-md">○</span></td>
-              <td><span class="score-chip sc-hi">◎</span></td>
-              <td style="font-weight:800;color:#059669">15</td>
-            </tr>
-            <tr>
-              <td style="text-align:left;font-size:11px">新機材の購入</td>
-              <td><span class="score-chip sc-md">○</span></td>
-              <td><span class="score-chip sc-lo">△</span></td>
-              <td><span class="score-chip sc-no">×</span></td>
-              <td><span class="score-chip sc-lo">△</span></td>
-              <td style="color:#64748b">9</td>
-            </tr>
-          </table>
-        </div>
-        <div class="try-box">
-          <div class="try-label">✋ アプリでやってみよう（5分）</div>
-          <p>STEP05で目標を入力。STEP06aでHOWツリーを作り★をつけ、06bで◎○△×を評価して「採用」ボタンを押す。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 11: STEP 07 + 08 ===== -->
-<div class="slide step-slide" data-time="58" data-title="STEP 07｜効果確認 ／ STEP 08｜振り返り">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag c-chk">STEP 07 / CHECK　→　STEP 08 / ACT</div>
-      <div class="slide-h1"><em class="c-chk">効果確認</em> ＆ <em class="c-act">振り返り</em></div>
-      <div class="slide-sub">Before/Afterで改善効果を数字で確認し、次のサイクルへつなげる</div>
-      <div class="accent-bar" style="background:linear-gradient(90deg,#d97706 50%,#dc2626 50%)"></div>
-    </div>
-    <div class="two-col">
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-          <div style="background:#d97706;color:#fff;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">STEP 07</div>
-          <span style="font-size:13px;font-weight:700">効果の確認（Before / After）</span>
-        </div>
-        <div class="ba-row">
-          <div class="ba-box" style="border-color:#93c5fd;background:#eff6ff">
-            <div class="ba-lbl">Before（対策前）</div>
-            <div class="ba-val">バラバラな乗務員<br>30名</div>
-          </div>
-          <div class="ba-arrow">→</div>
-          <div class="ba-box" style="border-color:#6ee7b7;background:#ecfdf5">
-            <div class="ba-lbl">After（対策後）</div>
-            <div class="ba-val">0名 ✅</div>
-          </div>
-        </div>
-        <div style="background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:8px;padding:10px 14px;margin-bottom:10px">
-          <div style="font-size:11px;font-weight:700;color:#065f46;margin-bottom:4px">有形効果（数字で表せる改善）</div>
-          <div style="font-size:12px;color:#065f46">苦情件数：113件 → 85件（25%減）<br>レポート作成時間：年間30時間削減</div>
-        </div>
-        <div class="example-box">
-          <div class="ex-label">ポイント</div>
-          <p>必ずSTEP02・05と同じ単位で比較する。<br>「達成」「未達成」ボタンで状況を記録する。</p>
-        </div>
-      </div>
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-          <div style="background:#dc2626;color:#fff;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">STEP 08</div>
-          <span style="font-size:13px;font-weight:700">振り返り（標準化 + KPT）</span>
-        </div>
-        <div class="kpt-row" style="margin-bottom:10px">
-          <div class="kpt-card kpt-k">
-            <div class="kpt-lbl">K</div>
-            <div class="kpt-sub">Keep（続けること）</div>
-            <div class="kpt-ex">役割分担して全員で活動できた</div>
-          </div>
-          <div class="kpt-card kpt-p">
-            <div class="kpt-lbl">P</div>
-            <div class="kpt-sub">Problem（改善すること）</div>
-            <div class="kpt-ex">進行が遅延した。異動で負担が増えた</div>
-          </div>
-          <div class="kpt-card kpt-t">
-            <div class="kpt-lbl">T</div>
-            <div class="kpt-sub">Try（次に挑戦）</div>
-            <div class="kpt-ex">ヘルプ係を1名決めて対応できる体制に</div>
-          </div>
-        </div>
-        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;font-size:12px;color:#475569">
-          <strong style="display:block;margin-bottom:4px">📌 標準化のポイント</strong>
-          いつ・どこで・誰が・何を・どのように・なぜ（5W1H）で書くと<br>担当者が変わっても対策が風化しない。
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 12: よくある失敗 ===== -->
-<div class="slide step-slide" data-time="63" data-title="よくある失敗パターンと対策">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag">TIPS</div>
-      <div class="slide-h1">よくある<em style="color:#dc2626">失敗パターン</em>と対策</div>
-      <div class="slide-sub">先人の失敗から学んで最短で活動を完走しよう</div>
-      <div class="accent-bar" style="background:#dc2626"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1;align-content:start">
-      <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #ef4444;border:1px solid #fecaca;border-left:4px solid #ef4444">
-        <div style="font-weight:700;color:#991b1b;margin-bottom:8px;font-size:14px">❌ データなしで問題を書く</div>
-        <div style="background:#fee2e2;border-radius:6px;padding:8px;font-size:12px;color:#7f1d1d;margin-bottom:6px">「なんとなく苦情が多い気がする」</div>
-        <div style="background:#f0fdf4;border-radius:6px;padding:8px;font-size:12px;color:#14532d">✓ 「前年比25%増、月113件（集計期間：4〜9月）」のように数字で書く</div>
-      </div>
-      <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #ef4444;border:1px solid #fecaca;border-left:4px solid #ef4444">
-        <div style="font-weight:700;color:#991b1b;margin-bottom:8px;font-size:14px">❌ KPIツリーをL1で終わらせる</div>
-        <div style="background:#fee2e2;border-radius:6px;padding:8px;font-size:12px;color:#7f1d1d;margin-bottom:6px">「放送が多い」のまま真因にしてしまう</div>
-        <div style="background:#f0fdf4;border-radius:6px;padding:8px;font-size:12px;color:#14532d">✓ 必ずL3まで分解する。L3が対策の入口になる</div>
-      </div>
-      <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #ef4444;border:1px solid #fecaca;border-left:4px solid #ef4444">
-        <div style="font-weight:700;color:#991b1b;margin-bottom:8px;font-size:14px">❌ なぜなぜが浅い（Why1で止まる）</div>
-        <div style="background:#fee2e2;border-radius:6px;padding:8px;font-size:12px;color:#7f1d1d;margin-bottom:6px">真因＝「手順がないから」（Why①のまま）</div>
-        <div style="background:#f0fdf4;border-radius:6px;padding:8px;font-size:12px;color:#14532d">✓ 最低3回「なぜ？」を繰り返す。「なぜ手順がないのか？」から始める</div>
-      </div>
-      <div style="background:#fff;border-radius:10px;padding:16px;border-left:4px solid #ef4444;border:1px solid #fecaca;border-left:4px solid #ef4444">
-        <div style="font-weight:700;color:#991b1b;margin-bottom:8px;font-size:14px">❌ 作って終わりにする</div>
-        <div style="background:#fee2e2;border-radius:6px;padding:8px;font-size:12px;color:#7f1d1d;margin-bottom:6px">活動が終わったがSTEP07/08が空欄のまま</div>
-        <div style="background:#f0fdf4;border-radius:6px;padding:8px;font-size:12px;color:#14532d">✓ STEP08の標準化まで完走してはじめて「改善」。チェックリストで完走を確認する</div>
-      </div>
-    </div>
-    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 18px;margin-top:12px;font-size:13px;color:#92400e">
-      💡 <strong>一番大切なこと：</strong>「正しい答え」より「数字に基づいた根拠ある答え」を出すこと。アプリが自動でグラフ化・集計するので、まず入力してみる。
-    </div>
-  </div>
-</div>
-
-<!-- ===== SLIDE 13: まとめ ===== -->
-<div class="slide s-summary" data-time="68" data-title="まとめ・ハンズオン">
-  <div class="slide-inner">
-    <div class="slide-hdr">
-      <div class="slide-step-tag" style="color:#93c5fd">SUMMARY</div>
-      <div class="slide-h1">まとめ ＆ 今日からやること</div>
-      <div class="slide-sub" style="color:rgba(255,255,255,0.6)">8ステップを完走すれば「なんとなくの改善」が「再現性のある改善」に変わる</div>
-      <div class="accent-bar" style="background:#60a5fa"></div>
-    </div>
-    <div class="sum-grid">
-      <div class="sum-card">
-        <div class="sc-num">01</div>
-        <h3>問題は数字で</h3>
-        <p>感覚ではなく客観的データで問題を表現する</p>
-      </div>
-      <div class="sum-card">
-        <div class="sc-num">02</div>
-        <h3>ギャップをテーマに</h3>
-        <p>理想と現状の差を数値化して取り組むテーマを決める</p>
-      </div>
-      <div class="sum-card" style="border-color:rgba(167,139,250,0.5)">
-        <div class="sc-num" style="background:rgba(167,139,250,0.3)">03</div>
-        <h3>KPIツリーで分解</h3>
-        <p>L1→L2→L3と3段階に分けて真因候補を特定する</p>
-      </div>
-      <div class="sum-card">
-        <div class="sc-num">04</div>
-        <h3>なぜを3回掘る</h3>
-        <p>Why①②③で根本原因を見つける。浅い分析は禁止</p>
-      </div>
-      <div class="sum-card">
-        <div class="sc-num">05</div>
-        <h3>目標は数字で</h3>
-        <p>何を・いつまでに・どれだけ。数字がないと効果確認できない</p>
-      </div>
-      <div class="sum-card">
-        <div class="sc-num">06</div>
-        <h3>対策はスコアで選ぶ</h3>
-        <p>◎○△×で客観的に評価して採用対策を決める</p>
-      </div>
-      <div class="sum-card">
-        <div class="sc-num">07</div>
-        <h3>Before/Afterで確認</h3>
-        <p>同じ単位で比較して改善効果を数字で示す</p>
-      </div>
-      <div class="sum-card">
-        <div class="sc-num">08</div>
-        <h3>標準化まで完走</h3>
-        <p>KPTと5W1Hで次のサイクルにつなげる</p>
-      </div>
-    </div>
-    <div class="sum-cta">
-      <div>
-        <strong>今すぐアプリを開いてSTEP01から入力を始めよう</strong>
-        <p>研修後30分以内に最初の問題点を1件入力することが最大のコツです</p>
-      </div>
-      <a class="cta-url" href="https://6s8fcr5v6r-creator.github.io/pdca-app/" target="_blank">アプリを開く →</a>
+    <div style="text-align:center;">
+      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:14px;">さあ、アプリを使って実際の問題を解決しよう！</div>
+      <a href="https://6s8fcr5v6r-creator.github.io/pdca-app/" target="_blank" class="cta-btn">アプリを開く →</a>
     </div>
   </div>
 </div>
 
 </div><!-- /slides-container -->
 
+<!-- JavaScript -->
 <script>
-const SLIDE_DATA = [
-  { time: 0,  label: '0分' },
-  { time: 3,  label: '3分' },
-  { time: 7,  label: '7分' },
-  { time: 12, label: '12分' },
-  { time: 20, label: '20分' },
-  { time: 26, label: '26分' },
-  { time: 33, label: '33分' },
-  { time: 38, label: '38分' },
-  { time: 46, label: '46分' },
-  { time: 52, label: '52分' },
-  { time: 58, label: '58分' },
-  { time: 63, label: '63分' },
-  { time: 68, label: '68分' },
-];
-
-let current = 0;
+// スライドデータ
 const slides = document.querySelectorAll('.slide');
-const counter = document.getElementById('counter');
-const timeBadge = document.getElementById('time-badge');
-const navTitle = document.getElementById('nav-title');
-const total = slides.length;
+let cur = 0;
 
-function showSlide(n) {
-  slides[current].classList.remove('active');
-  current = (n + total) % total;
-  slides[current].classList.add('active');
-  counter.textContent = (current + 1) + ' / ' + total;
-  const d = SLIDE_DATA[current];
-  timeBadge.textContent = '⏱ ' + (d ? d.time + '分〜' : '—');
-  const titleEl = slides[current].getAttribute('data-title');
-  navTitle.textContent = titleEl || '問題解決型ストーリーフォーマット 研修資料';
+function update() {
+  slides.forEach((s, i) => s.classList.toggle('active', i === cur));
+  const s = slides[cur];
+  document.getElementById('navTitle').textContent = s.dataset.title || '';
+  document.getElementById('timeBadge').textContent = (s.dataset.time || '0') + ' min';
+  document.getElementById('slideCounter').textContent = (cur + 1) + ' / ' + slides.length;
 }
 
-function nextSlide() { showSlide(current + 1); }
-function prevSlide() { showSlide(current - 1); }
+function nextSlide() { if (cur < slides.length - 1) { cur++; update(); window.scrollTo(0,0); } }
+function prevSlide() { if (cur > 0) { cur--; update(); window.scrollTo(0,0); } }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextSlide(); }
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
 });
 
-// スワイプ対応
+// タッチスワイプ
 let tx = 0;
-document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
 document.addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - tx;
   if (Math.abs(dx) > 50) { dx < 0 ? nextSlide() : prevSlide(); }
-});
+}, { passive: true });
+
+update();
 </script>
 </body>
 </html>
